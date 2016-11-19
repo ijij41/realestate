@@ -54,6 +54,16 @@ def access_web_retrun_json(url):
     #print type(jsonString),jsonString
     return jsonString
 
+def access_web_retrun_dict(url):
+    req = initial(url)
+    response = urllib2.urlopen(req)
+    # headers = response.info().headers  # response header
+    #the_page = response.read()
+    js_dict = json.loads(response.read())    # raw file is just str, so make it to dict, and then json dumps
+    #print type(js),js
+    #jsonString = json.dumps(js,indent=4)
+    #print type(jsonString),jsonString
+    return js_dict
 
 
 
