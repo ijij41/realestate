@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'startpolls'
+    'startpolls',
+    'realestate',
 ]
 
 MIDDLEWARE = [
@@ -59,8 +60,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -69,6 +69,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            #'init_command': 'SET innodb_strict_mode=1',
+            #'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+            #'init_command':"SET sql_mode='STRICT_TRANS_TABLES', innodb_strict_mode=1",
         },
     },
 ]
@@ -85,11 +88,14 @@ DATABASES = {
         #'ENGINE': 'django.db.backends.sqlite3',
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'realestate',
+        'NAME': 'kaly',
         'USER': 'root',
         'PASSWORD': 'dlwjdgns',
         'HOST': '52.91.204.12',
         'PORT': '3306',
+        'OPTIONS':{
+             'init_command':"SET sql_mode='STRICT_TRANS_TABLES', innodb_strict_mode=1", 
+        }
     }
 }
 
