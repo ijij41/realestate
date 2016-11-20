@@ -2,19 +2,11 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+
 # Create your models here.
 
-#class Question_test(models.Model):
-#    question_text_c = models.CharField(max_length=200)
-#    #question_etc  = models.CharField(max_length=100)
-#
-#    def __unicode__(self):
-#        return self.question_text_c
-#
-#
-#
-class Address(models.Model):
 
+class Address(models.Model):
     si_code = models.IntegerField()
     si_name = models.CharField(max_length=20)
     gu_code = models.IntegerField()
@@ -23,16 +15,13 @@ class Address(models.Model):
     dong_name = models.CharField(max_length=20)
 
     def __unicode__(self):
-	return self.dong_name
+        return self.dong_name
 
-##    class Meta:
-##        managed = False
-##        db_table = 'address'
-#
-#
+        # class Meta:
+        #     managed = False
+        #     db_table = 'address'
 
 class Deal(models.Model):
-
     housetype = models.CharField(db_column='houseType', max_length=1)  # Field name made lowercase.
     dealtype = models.CharField(db_column='dealType', max_length=1)  # Field name made lowercase.
 
@@ -57,18 +46,17 @@ class Deal(models.Model):
     sum_amt = models.IntegerField(db_column='SUM_AMT', blank=True, null=True)  # Field name made lowercase.
     rent_amt = models.IntegerField(db_column='RENT_AMT', blank=True, null=True)  # Field name made lowercase.
     tot_area = models.FloatField(db_column='TOT_AREA', blank=True, null=True)  # Field name made lowercase.
-    bldg_muse_nm = models.CharField(db_column='BLDG_MUSE_NM', max_length=40, blank=True, null=True)  # Field name made lowercase.
+    bldg_muse_nm = models.CharField(db_column='BLDG_MUSE_NM', max_length=40, blank=True,
+                                    null=True)  # Field name made lowercase.
     lawd_cd = models.BigIntegerField(db_column='LAWD_CD', blank=True, null=True)  # Field name made lowercase.
     umd_nm = models.CharField(db_column='UMD_NM', max_length=40, blank=True, null=True)  # Field name made lowercase.
     right_gbn = models.IntegerField(db_column='RIGHT_GBN', blank=True, null=True)  # Field name made lowercase.
 
-
     def __unicode__(self):
-	return self.bldg_nm
+        return self.bldg_nm
+    #
+    # class Meta:
+    #     managed = False
+    #     db_table = 'deal'
 
-#
 
-#    class Meta:
-#        managed = False
-#        db_table = 'deal'
-#
