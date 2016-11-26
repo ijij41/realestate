@@ -54,6 +54,7 @@ def access_web_retrun_json(url):
     #print type(jsonString),jsonString
     return jsonString
 
+
 def access_web_retrun_dict(url):
     req = initial(url)
     response = urllib2.urlopen(req)

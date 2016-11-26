@@ -6,6 +6,33 @@ from django.db import models
 # Create your models here.
 
 
+# class Address2(models.Model):
+#     si_code = models.IntegerField()
+#     si_name = models.CharField(max_length=20)
+#     gu_code = models.IntegerField()
+#     gu_name = models.CharField(max_length=20)
+#     dong_code = models.BigIntegerField()
+#     dong_name = models.CharField(max_length=20)
+#
+#     def __unicode__(self):
+#         # return self.dong_name
+#         return self.si_code, self.si_name, self.gu_code, self.gu_name, self.dong_code, self.dong_name
+#
+#
+# class Address1(models.Model):
+#     si_code = models.IntegerField()
+#     si_name = models.CharField(max_length=20)
+#     gu_code = models.IntegerField()
+#     gu_name = models.CharField(max_length=20)
+#     dong_code = models.BigIntegerField()
+#     dong_name = models.CharField(max_length=20)
+#
+#     def __unicode__(self):
+#         # return self.dong_name
+#         return self.si_code, self.si_name, self.gu_code, self.gu_name, self.dong_code, self.dong_name
+
+
+
 class Address(models.Model):
     si_code = models.IntegerField()
     si_name = models.CharField(max_length=20)
@@ -15,7 +42,10 @@ class Address(models.Model):
     dong_name = models.CharField(max_length=20)
 
     def __unicode__(self):
-        return self.dong_name
+        # return self.dong_name
+        return "%s %s %s %s %s %s" % (self.si_code, self.si_name, self.gu_code, self.gu_name, self.dong_code, self.dong_name)
+        # return '%s' % str(self.si_code)
+
 
         # class Meta:
         #     managed = False
@@ -32,7 +62,7 @@ class Deal(models.Model):
     guguncode = models.IntegerField(db_column='gugunCode')  # Field name made lowercase.
     dongcode = models.BigIntegerField(db_column='dongCode')  # Field name made lowercase.
 
-    deal_date = models.DateField()
+    deal_date = models.DateField(db_column='deal_data')
 
     bldg_area = models.FloatField(db_column='BLDG_AREA', blank=True, null=True)  # Field name made lowercase.
     bobn = models.CharField(db_column='BOBN', max_length=11, blank=True, null=True)  # Field name made lowercase.
@@ -40,7 +70,7 @@ class Deal(models.Model):
     deal_dd = models.CharField(db_column='DEAL_DD', max_length=11, blank=True, null=True)  # Field name made lowercase.
     deal_mm = models.IntegerField(db_column='DEAL_MM', blank=True, null=True)  # Field name made lowercase.
     bldg_nm = models.CharField(db_column='BLDG_NM', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    bubn = models.IntegerField(db_column='BUBN', blank=True, null=True)  # Field name made lowercase.
+    bubn = models.CharField(db_column='BUBN', max_length=100, blank=True, null=True)  # Field name made lowercase.
     bldg_cd = models.BigIntegerField(db_column='BLDG_CD', blank=True, null=True)  # Field name made lowercase.
     build_year = models.IntegerField(db_column='BUILD_YEAR', blank=True, null=True)  # Field name made lowercase.
     sum_amt = models.IntegerField(db_column='SUM_AMT', blank=True, null=True)  # Field name made lowercase.
