@@ -5,6 +5,8 @@ import urllib
 import urllib2
 import urlparse
 
+import sys
+
 
 def initial(url):
     # get
@@ -57,7 +59,20 @@ def access_web_retrun_json(url):
 
 def access_web_retrun_dict(url):
     req = initial(url)
-    response = urllib2.urlopen(req)
+
+    success_access = False
+    for i in range(0,3):
+        try:
+            response = urllib2.urlopen(req)
+            success_access = True
+            break
+        except urllib2.URLError as ue:
+            print ue
+
+    if not success_access:
+        sys.exit("web access errors")
+
+
     # headers = response.info().headers  # response header
     #the_page = response.read()
     js_dict = json.loads(response.read())    # raw file is just str, so make it to dict, and then json dumps

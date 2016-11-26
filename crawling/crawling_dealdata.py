@@ -62,7 +62,7 @@ def run():
                         #     # print type(Deal._meta.fields[15])
                         #     # db_column_name_list = [x.db_column for x in Deal._meta.fields][9:]
 
-
+                        bulk_list = []
                         for deal_item in deal_list:  # can be multiple rows
                             # per one row
                             d = Deal(housetype=build_type, dealtype=deal_type, year=year, period=quarter,
@@ -103,17 +103,32 @@ def run():
                             if 'RIGHT_GBN' in deal_item.keys():
                                 d.right_gbn = deal_item['RIGHT_GBN']
 
-                            save_success = False
-                            for try_idx in range(0, 3):
-                                try:
-                                    d.save()
-                                    save_success = True
-                                    break
-                                except OperationalError as oe:
-                                    print oe
+                            bulk_list.append(d)
+                            # save_success = False
+                            # for try_idx in range(0, 3):
+                            #     try:
+                            #         d.save()
+                            #         save_success = True
+                            #         break
+                            #     except OperationalError as oe:
+                            #         print oe
+                            #
+                            # if not save_success:
+                            #     sys.exit("db save error")
 
-                            if not save_success:
-                                sys.exit("db save error")
+                        save_success=False
+                        for try_idx in range(0, 3):
+                            try:
+                                Deal.objects.bulk_create(bulk_list)
+                                save_success=True
+                                break
+                            except OperationalError as oe:
+                                print oe
+                        if not save_success:
+                            sys.exit("db save error")
+
+
+
 
 
 def existData():
