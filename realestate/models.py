@@ -6,32 +6,6 @@ from django.db import models
 # Create your models here.
 
 
-# class Address2(models.Model):
-#     si_code = models.IntegerField()
-#     si_name = models.CharField(max_length=20)
-#     gu_code = models.IntegerField()
-#     gu_name = models.CharField(max_length=20)
-#     dong_code = models.BigIntegerField()
-#     dong_name = models.CharField(max_length=20)
-#
-#     def __unicode__(self):
-#         # return self.dong_name
-#         return self.si_code, self.si_name, self.gu_code, self.gu_name, self.dong_code, self.dong_name
-#
-#
-# class Address1(models.Model):
-#     si_code = models.IntegerField()
-#     si_name = models.CharField(max_length=20)
-#     gu_code = models.IntegerField()
-#     gu_name = models.CharField(max_length=20)
-#     dong_code = models.BigIntegerField()
-#     dong_name = models.CharField(max_length=20)
-#
-#     def __unicode__(self):
-#         # return self.dong_name
-#         return self.si_code, self.si_name, self.gu_code, self.gu_name, self.dong_code, self.dong_name
-
-
 
 class Address(models.Model):
     si_code = models.IntegerField()
