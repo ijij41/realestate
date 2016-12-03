@@ -47,10 +47,25 @@ def run():
 
                         url = crawling_util.buildUrl(build_type, deal_type, str(year), str(quarter),
                                                      str(address.si_code), str(address.gu_code), str(address.dong_code))
-                        dict_return = access_web.access_web_retrun_dict(url)
+                        is_get_data = False
+                        for try_idx in range(0, 3):
+                            dict_return = access_web.access_web_retrun_dict(url)
+                            if "jsonList" in dict_return.keys():
+                                is_get_data=True
+                                break
+
+                        if not is_get_data:
+                            sys.exit("Fail:get data from web")
+
+
+
+
+
+
                         # deal_list = crawling_util.unrolling_deal_data(build_type, deal_type, year, quarter, address['sido'],
                         #                                                   address['gugun'],
                         #                                                   address['dong'], dict_return)
+
                         deal_list = crawling_util.unrolling_deal_data(dict_return)
 
                         # print "unrolling deal list", deal_list
@@ -116,19 +131,16 @@ def run():
                             # if not save_success:
                             #     sys.exit("db save error")
 
-                        save_success=False
+                        save_success = False
                         for try_idx in range(0, 3):
                             try:
                                 Deal.objects.bulk_create(bulk_list)
-                                save_success=True
+                                save_success = True
                                 break
                             except OperationalError as oe:
                                 print oe
                         if not save_success:
                             sys.exit("db save error")
-
-
-
 
 
 def existData():
