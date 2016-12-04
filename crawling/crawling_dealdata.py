@@ -10,6 +10,7 @@
 import sys
 
 import datetime
+import time
 
 from django.db import OperationalError
 
@@ -24,10 +25,11 @@ deal_quarter = [x for x in range(1, 5, 1)]
 deal_build_dict = {'A': 'APT', 'B': 'VILLA', 'C': 'HOUSE', 'E': 'OFFICETEL', 'F': 'DEAL_RIGHT', 'G': 'LAND'}
 deal_build = deal_build_dict.keys()
 
-
 # deal_types = ['1']  # houseType: 'DEAL','RENT'
-# deal_year = [2016]
-# deal_quarter = [4]
+deal_year = [2016]
+deal_quarter = [3]
+
+
 # deal_build = ['A']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
 
 
@@ -47,25 +49,28 @@ def run():
 
                         url = crawling_util.buildUrl(build_type, deal_type, str(year), str(quarter),
                                                      str(address.si_code), str(address.gu_code), str(address.dong_code))
-                        is_get_data = False
-                        for try_idx in range(0, 3):
-                            dict_return = access_web.access_web_retrun_dict(url)
-                            if "jsonList" in dict_return.keys():
-                                is_get_data=True
-                                break
 
-                        if not is_get_data:
-                            sys.exit("Fail:get data from web")
+                        dict_return = access_web.access_web_retrun_dict(url)
+                        #
+                        # success_access_web = False
+                        # for i in range(0, 5):
+                        #     dict_return = access_web.access_web_retrun_dict(url)
+                        #     if 'jsonList' in dict_return.keys() and (not dict_return['jsonList'] is None):
+                        #         success_access_web = True
+                        #         break
+                        #
+                        #     time.sleep(5)
+                        #
+                        # if not success_access_web:
+                        #     print dict_return
+                        #     sys.exit("Fail: web access")
 
 
-
-
-
-
+                        print url
+                        print dict_return
                         # deal_list = crawling_util.unrolling_deal_data(build_type, deal_type, year, quarter, address['sido'],
                         #                                                   address['gugun'],
                         #                                                   address['dong'], dict_return)
-
                         deal_list = crawling_util.unrolling_deal_data(dict_return)
 
                         # print "unrolling deal list", deal_list
