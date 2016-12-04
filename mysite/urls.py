@@ -16,10 +16,8 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-
-
 urlpatterns = [
     # url(r'^startpolls/', include('startpolls.urls',namespace='startpolls')),
-    url(r'^realestate/', include('realestate.urls',namespace='realestate')),
+    url(r'^realestate/', include('realestate.urls', namespace='realestate')),
     url(r'^admin/', admin.site.urls),
 ]
