@@ -15,10 +15,12 @@ def store_address_data_from_web():
 
 
 def store_deal_data_from_web():
-    if not crawling_dealdata.existData():
-        crawling_dealdata.run()
-    else:
-        print "there are already exist data"
+    crawling_dealdata.run()
+
+    # if not crawling_dealdata.existData():
+    #     crawling_dealdata.run()
+    # else:
+    #     print "there are already exist data"
 
 
 def main():

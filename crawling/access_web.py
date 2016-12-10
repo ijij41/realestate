@@ -13,7 +13,7 @@ def initial(url):
     # url = "http://rt.molit.go.kr/srh/getDanjiComboAjax.do?areaCode=&chosung=&danjiCode=&dongCode=1165010200&fromAmt1=&fromAmt2=&fromAmt3=&gubunCode=LAND&gugunCode=11650&houseType=1&menuGubun=A&rentAmtType=3&roadCode=&sidoCode=11&srhPeriod=4&srhType=LOC&srhYear=2016&toAmt1=&toAmt2=&toAmt3="
 
     # post (like get style url)
-    #url = "http://rt.molit.go.kr/srh/getListAjax.do?areaCode=&chosung=&danjiCode=&dongCode=1165010200&fromAmt1=&fromAmt2=&fromAmt3=&gubunCode=LAND&gugunCode=11650&houseType=1&jimokCode=&menuGubun=A&rentAmtType=3&reqPage=SRH&roadCode=&sidoCode=11&srhPeriod=4&srhType=LOC&srhYear=2016&toAmt1=&toAmt2=&toAmt3=&useCode=&useSubCode="
+    # url = "http://rt.molit.go.kr/srh/getListAjax.do?areaCode=&chosung=&danjiCode=&dongCode=1165010200&fromAmt1=&fromAmt2=&fromAmt3=&gubunCode=LAND&gugunCode=11650&houseType=1&jimokCode=&menuGubun=A&rentAmtType=3&reqPage=SRH&roadCode=&sidoCode=11&srhPeriod=4&srhType=LOC&srhYear=2016&toAmt1=&toAmt2=&toAmt3=&useCode=&useSubCode="
     #############################################
     param_dict = dict(urlparse.parse_qsl(urlparse.urlsplit(url).query))
     pure_url = url.split("?")[0]
@@ -49,11 +49,11 @@ def access_web_retrun_json(url):
     req = initial(url)
     response = urllib2.urlopen(req)
     # headers = response.info().headers  # response header
-    #the_page = response.read()
-    js = json.loads(response.read())    # raw file is just str, so make it to dict, and then json dumps
-    #print type(js),js
-    jsonString = json.dumps(js,indent=4)
-    #print type(jsonString),jsonString
+    # the_page = response.read()
+    js = json.loads(response.read())  # raw file is just str, so make it to dict, and then json dumps
+    # print type(js),js
+    jsonString = json.dumps(js, indent=4)
+    # print type(jsonString),jsonString
     return jsonString
 
 
@@ -61,27 +61,21 @@ def access_web_retrun_dict(url):
     req = initial(url)
 
     success_access = False
-    for i in range(0,3):
-        try:
-            response = urllib2.urlopen(req)
-            success_access = True
-            break
-        except urllib2.URLError as ue:
-            print ue
+    try:
+        response = urllib2.urlopen(req)
+        success_access = True
+        # break
+    except urllib2.URLError as ue:
+        print ue
 
     if not success_access:
-        sys.exit("web access errors")
-
+        print ("web access errors")
+        return {'jsonList': None}
 
     # headers = response.info().headers  # response header
-    #the_page = response.read()
-    js_dict = json.loads(response.read())    # raw file is just str, so make it to dict, and then json dumps
-    #print type(js),js
-    #jsonString = json.dumps(js,indent=4)
-    #print type(jsonString),jsonString
+    # the_page = response.read()
+    js_dict = json.loads(response.read())  # raw file is just str, so make it to dict, and then json dumps
+    # print type(js),js
+    # jsonString = json.dumps(js,indent=4)
+    # print type(jsonString),jsonString
     return js_dict
-
-
-
-
-

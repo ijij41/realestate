@@ -25,12 +25,11 @@ deal_quarter = [x for x in range(1, 5, 1)]
 deal_build_dict = {'A': 'APT', 'B': 'VILLA', 'C': 'HOUSE', 'E': 'OFFICETEL', 'F': 'DEAL_RIGHT', 'G': 'LAND'}
 deal_build = deal_build_dict.keys()
 
-# deal_types = ['1']  # houseType: 'DEAL','RENT'
+deal_types = ['1','2']  # houseType: 'DEAL','RENT'
 deal_year = [2016]
-deal_quarter = [3]
-
-
-# deal_build = ['A']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
+deal_quarter = [1,2]
+# deal_build = ['A','B','C','E','F','G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
+deal_build = ['A','B','C','E','F','G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
 
 
 def run():
@@ -38,6 +37,9 @@ def run():
 
     for build_type in deal_build:
         for deal_type in deal_types:
+            if (build_type is 'F' or build_type is 'G') and (deal_type is '2'):
+                continue
+
             for year in deal_year:
                 for quarter in deal_quarter:
                     for addr_idx, address in enumerate(address_list):
@@ -50,23 +52,25 @@ def run():
                         url = crawling_util.buildUrl(build_type, deal_type, str(year), str(quarter),
                                                      str(address.si_code), str(address.gu_code), str(address.dong_code))
 
-                        dict_return = access_web.access_web_retrun_dict(url)
+                        # dict_return = access_web.access_web_retrun_dict(url)
                         #
-                        # success_access_web = False
-                        # for i in range(0, 5):
-                        #     dict_return = access_web.access_web_retrun_dict(url)
-                        #     if 'jsonList' in dict_return.keys() and (not dict_return['jsonList'] is None):
-                        #         success_access_web = True
-                        #         break
-                        #
-                        #     time.sleep(5)
-                        #
-                        # if not success_access_web:
-                        #     print dict_return
-                        #     sys.exit("Fail: web access")
-
-
                         print url
+                        success_access_web = False
+                        for i in range(0, 5):
+                            dict_return = access_web.access_web_retrun_dict(url)
+                            if 'jsonList' in dict_return.keys() and (not dict_return['jsonList'] is None):
+                                success_access_web = True
+                                break
+
+                            print "try count:", i, "   ", dict_return
+                            time.sleep(60*10)
+
+
+                        if not success_access_web:
+                            print dict_return
+                            sys.exit("Fail: web access")
+
+
                         print dict_return
                         # deal_list = crawling_util.unrolling_deal_data(build_type, deal_type, year, quarter, address['sido'],
                         #                                                   address['gugun'],
@@ -144,6 +148,8 @@ def run():
                                 break
                             except OperationalError as oe:
                                 print oe
+                                time.sleep(60*10)
+
                         if not save_success:
                             sys.exit("db save error")
 
