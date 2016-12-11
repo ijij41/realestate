@@ -45,6 +45,7 @@ def run():
             for year in deal_year:
                 for quarter in deal_quarter:
                     for addr_idx, address in enumerate(address_list):
+                        time.sleep(60)
                         print addr_idx, address.dong_code, address.si_name, address.gu_name, address.dong_name, build_type, deal_type, year, quarter
 
                         # print "%s %s %s %s %s" % (
