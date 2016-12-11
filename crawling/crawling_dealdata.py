@@ -35,6 +35,8 @@ deal_build = ['A','B','C','E','F','G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL
 def run():
     address_list = Address.objects.all()
 
+    t1 = time.time()
+
     for build_type in deal_build:
         for deal_type in deal_types:
             if (build_type is 'F' or build_type is 'G') and (deal_type is '2'):
@@ -63,11 +65,16 @@ def run():
                                 break
 
                             print "try count:", i, "   ", dict_return
+                            t2 = time.time()
+                            print t2 - t1
                             time.sleep(60*10)
+
 
 
                         if not success_access_web:
                             print dict_return
+                            t2 = time.time()
+                            print t2-t1
                             sys.exit("Fail: web access")
 
 
@@ -151,7 +158,14 @@ def run():
                                 time.sleep(60*10)
 
                         if not save_success:
+                            t2 = time.time()
+                            print t2 - t1
                             sys.exit("db save error")
+
+    t2 = time.time()
+    print t2 - t1
+    print "Finish to run"
+
 
 
 def existData():
