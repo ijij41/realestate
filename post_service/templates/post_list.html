@@ -4,8 +4,16 @@
     <meta charset="UTF-8">
     <title>HelloWorld</title>
 </head>
+
+{#{% if not request.user.is_authenticated %}#}
 <body>
-    HelloWorld {{ hello_world_arg }}!!!
+{#{{  user.is_authenticated }}#}
+{#{{  user }}#}
+{#{{  request.user }}#}
+    <a href={% url 'user_manager:login' %}>로그인</a>
+</body>
+{#{% else %}#}
+<body>
     <br>
     <table>
         <tr>
@@ -18,7 +26,20 @@
             <td>{{ post.author }}</td>
         </tr>
         {% endfor %}
+        <tr>
+            <td>
+            {% for page in total_page %}
+                {% if current_page != page %}
+                    <a href="?page={{ page }}">{{ page }}</a>
+                {% else %}
+                    <span style="font-weight: bold">{{ page }}</span>
+                {%  endif %}
+            {% endfor %}
+            </td>
+        </tr>
+
     </table>
 
 </body>
+{#{% endif %}#}
 </html>
