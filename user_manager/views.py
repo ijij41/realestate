@@ -32,9 +32,7 @@ def login_validate(request):
 
         user = auth.authenticate(username=login_form_date.cleaned_data['id'],
                                  password=login_form_date.cleaned_data['password'])
-        print user
-        print type(user)
-        print "aaaa", user.username,"bbbb", user.password
+
 
         if user is not None:
             # if user.is_active:
