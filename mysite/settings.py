@@ -123,6 +123,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LOGIN_URL = '/user/login/'
+LOGIN_REDIRECT_URL = '/board/'
+
+
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # default False
 
 # Internationalization

@@ -21,15 +21,17 @@ from realestate.models import Deal, Address
 deal_types_dict = {'1': 'DEAL', '2': 'RENT'}
 deal_types = deal_types_dict.keys()  # houseType: 'DEAL','RENT'
 deal_year = [x for x in range(2006, 2017, 1)]
+deal_year = [x for x in range(2006, 2016, 1)]
 deal_quarter = [x for x in range(1, 5, 1)]
 deal_build_dict = {'A': 'APT', 'B': 'VILLA', 'C': 'HOUSE', 'E': 'OFFICETEL', 'F': 'DEAL_RIGHT', 'G': 'LAND'}
 deal_build = deal_build_dict.keys()
 
-deal_types = ['1','2']  # houseType: 'DEAL','RENT'
-deal_year = [2016]
-deal_quarter = [1,2]
+
+# deal_types = ['1','2']  # houseType: 'DEAL','RENT'
+# deal_year = [2016]
+# deal_quarter = [1,2]
+# # deal_build = ['A','B','C','E','F','G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
 # deal_build = ['A','B','C','E','F','G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
-deal_build = ['A','B','C','E','F','G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
 
 
 def run():
@@ -37,15 +39,20 @@ def run():
 
     t1 = time.time()
 
-    for build_type in deal_build:
-        for deal_type in deal_types:
-            if (build_type is 'F' or build_type is 'G') and (deal_type is '2'):
-                continue
+    for year in deal_year:
+        for quarter in deal_quarter:
+            for build_type in deal_build:
+                for deal_type in deal_types:
+                    if (build_type is 'F' or build_type is 'G') and (deal_type is '2'):
+                        continue
 
-            for year in deal_year:
-                for quarter in deal_quarter:
+                    # print year, quarter, build_type, deal_type
+                    # continue
+
                     for addr_idx, address in enumerate(address_list):
-                        time.sleep(60)
+                        if addr_idx % 100 == 0:
+                            time.sleep(60)
+
                         print addr_idx, address.dong_code, address.si_name, address.gu_name, address.dong_name, build_type, deal_type, year, quarter
 
                         # print "%s %s %s %s %s" % (
@@ -57,7 +64,7 @@ def run():
 
                         # dict_return = access_web.access_web_retrun_dict(url)
                         #
-                        print url
+                        print "url:", url
                         success_access_web = False
                         for i in range(0, 5):
                             dict_return = access_web.access_web_retrun_dict(url)
@@ -68,18 +75,15 @@ def run():
                             print "try count:", i, "   ", dict_return
                             t2 = time.time()
                             print t2 - t1
-                            time.sleep(60*10)
-
-
+                            time.sleep(60 * 10)
 
                         if not success_access_web:
                             print dict_return
                             t2 = time.time()
-                            print t2-t1
+                            print t2 - t1
                             sys.exit("Fail: web access")
 
-
-                        print dict_return
+                        # print dict_return
                         # deal_list = crawling_util.unrolling_deal_data(build_type, deal_type, year, quarter, address['sido'],
                         #                                                   address['gugun'],
                         #                                                   address['dong'], dict_return)
@@ -156,7 +160,7 @@ def run():
                                 break
                             except OperationalError as oe:
                                 print oe
-                                time.sleep(60*10)
+                                time.sleep(60 * 10)
 
                         if not save_success:
                             t2 = time.time()
@@ -166,7 +170,6 @@ def run():
     t2 = time.time()
     print t2 - t1
     print "Finish to run"
-
 
 
 def existData():

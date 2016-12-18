@@ -35,20 +35,20 @@ def store_data_db_test(request):
     print "store data db test"
     return render(request, 'realestate/db_insert_done.html')
 
+#
+# def signup(request):
+#     if request.method == "POST":
+#         userform = UserCreationForm(request.POST)
+#         if userform.is_valid():
+#             userform.save()
+#             return HttpResponseRedirect(reverse("realestate:signup_ok"))
+#
+#     elif request.method == "GET":
+#         userform = UserCreationForm()
+#
+#     return render(request, "registration/signup.html",{"userform":userform})
 
-def signup(request):
-    if request.method == "POST":
-        userform = UserCreationForm(request.POST)
-        if userform.is_valid():
-            userform.save()
-            return HttpResponseRedirect(reverse("realestate:signup_ok"))
 
-    elif request.method == "GET":
-        userform = UserCreationForm()
-
-    return render(request, "registration/signup.html",{"userform":userform})
-
-
-def session_confirm(request):
-    print User.get_full_name()
-    return None
+# def session_confirm(request):
+#     print User.get_full_name()
+#     return None

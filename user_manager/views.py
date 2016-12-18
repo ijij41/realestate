@@ -1,4 +1,5 @@
 from django.contrib import auth
+from django.contrib.auth.forms import UserCreationForm
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -10,16 +11,17 @@ from django.template.context_processors import csrf
 from django.template.loader import get_template
 from django.urls import reverse
 
-from user_manager.forms import LoginForm
+from user_manager.forms import LoginForm, RegisterForm
 
 
 def login(request):
-
     if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('post_service:post_list'))
+        return HttpResponseRedirect(
+            reverse('post_service:post_list'))  # first page after login.   # in explorer, what I want does work well
 
     template = get_template('login_form.html')
-    context = Context({'login_form': LoginForm()})
+    # context = Context({'login_form': LoginForm()})
+    context = Context({'form': LoginForm()})  #change name to share django default login form
     context.update(csrf(request))
 
     return HttpResponse(template.render(context))
@@ -32,7 +34,6 @@ def login_validate(request):
 
         user = auth.authenticate(username=login_form_date.cleaned_data['id'],
                                  password=login_form_date.cleaned_data['password'])
-
 
         if user is not None:
             # if user.is_active:
@@ -56,3 +57,16 @@ def logout(request):
     except KeyError:
         pass
     return HttpResponse("You're logged out.")
+
+
+def signup(request):
+    if request.method == "POST":
+        userform = RegisterForm(request.POST)
+        if userform.is_valid():
+            userform.save()
+            return HttpResponseRedirect(reverse("user_manager:signup_ok"))
+
+    elif request.method == "GET":
+        userform = RegisterForm()
+
+    return render(request, "signup.html", {"userform": userform})
