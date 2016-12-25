@@ -36,7 +36,21 @@ def unrolling_deal_data(json_data):
         # bldg_nm = item["BLDG_NM"]
         # bldg_cd = item["BLDG_CD"]
 
-        for monthlist in [item["month1List"], item["month2List"], item["month3List"]]:
+
+        monthlists = []
+        if "month1List" in item.keys():
+            monthlists.append(item["month1List"])
+        if "month2List" in item.keys():
+            monthlists.append(item["month2List"])
+        if "month3List" in item.keys():
+            monthlists.append(item["month3List"])
+
+        # print "a:", [item["month1List"], item["month2List"], item["month3List"]]
+        # print "b:", monthlists
+
+
+        # for monthlist in [item["month1List"], item["month2List"], item["month3List"]]:
+        for monthlist in monthlists:
             for row in monthlist:
                 # bobn = row["BOBN"]
                 # build_year = row["BUILD_YEAR"]

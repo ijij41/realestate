@@ -50,7 +50,7 @@ def run():
                     # continue
 
                     for addr_idx, address in enumerate(address_list):
-                        if addr_idx % 100 == 0:
+                        if addr_idx % 50 == 0:
                             time.sleep(60)
 
                         print addr_idx, address.dong_code, address.si_name, address.gu_name, address.dong_name, build_type, deal_type, year, quarter
