@@ -49,6 +49,16 @@ INSTALLED_APPS = [
     # 'rest_framework_swagger',
 ]
 
+
+LOGIN_EXEMPT_URLS=[
+    'admin',
+    'realestate/register',
+    'realestate/template_typography',
+    'realestate/template_index',
+    'realestate/template_tables',
+]
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -57,7 +67,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'realestate.middleware.LoginRequiredMiddleware',
 ]
+
+
+
 
 ROOT_URLCONF = 'mysite.urls'
 
@@ -91,10 +106,12 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
+        #http://52.91.204.12/phpmyadmin/
         'NAME': 'kunta',
+        # 'NAME': 'kunta_1',
         'USER': 'root',
         'PASSWORD': 'dlwjdgns',
-        'HOST': '52.91.204.12',
+        'HOST': '54.224.103.57',
         'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES', innodb_strict_mode=1",
@@ -122,8 +139,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGIN_URL = '/user/login/'
-LOGIN_REDIRECT_URL = '/board/'
+#LOGIN_URL = '/user/login/'
+#LOGIN_REDIRECT_URL = '/board/'
+
+LOGIN_URL = '/realestate/login/'
+# LOGIN_REDIRECT_URL = '/realestate/main/'    #after login, when we use login function provided by django auth
+LOGIN_REDIRECT_URL = '/realestate/search/'    #after login, when we use login function provided by django auth
 
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # default False

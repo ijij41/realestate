@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 import sys
 
+from datetime import date
+
+from realestate.models import Address
+
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
@@ -48,35 +52,49 @@ class SearchForm(forms.Form):
     # dong_code = forms.ChoiceField(widget=forms.Select, label = "", choices=(), required=False)
     # dong_code = forms.ChoiceField(widget=forms.Select, label = "", choices=(),)
     # dong_code = forms.ChoiceField(widget=forms.Select, label = "", choices=(), validators = [validate_dong_code])
-
     ##########################################################
     # deal_type : we don't need selet it due to default value
 
     CHOICES = [('1', '매매'), ('2', '전/월세')]
 
-    YEARS = [(x, x) for x in range(2006, 2017)]
+
+
+    CUR_YEAR = date.today().year
+    YEARS = [(x, x) for x in range(2006, CUR_YEAR+1)]
     QUARTERS = [(x, x) for x in range(1, 5)]
 
-    deal_type = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect(), initial=1, )
+    rs_si_code_choice = Address.objects.all().values_list('si_code', 'si_name').distinct().order_by("si_name");
+    # rs_gu_code_choice = Address.objects.all().values_list('gu_code', 'gu_name').distinct()
+    # rs_dong_code_choice = Address.objects.all().values_list('dong_code', 'dong_name').distinct()
+    rs_gu_code_choice = [(0 ,'구/군')]
+    rs_dong_code_choice = [(0 ,'동')]
 
-    si_code = CustomChoiceField(label="", choices=())
-    gu_code = CustomChoiceField(label="", choices=())
-    dong_code = CustomChoiceField(label="", choices=())
 
-    start_year = forms.ChoiceField(choices=YEARS, widget=forms.Select(attrs={'class': 'form-control'}))
-    start_quarter = forms.ChoiceField(choices=QUARTERS, widget=forms.Select(attrs={'class': 'form-control'}))
-    end_year = forms.ChoiceField(choices=YEARS, widget=forms.Select(attrs={'class': 'form-control'}))
-    end_quarter = forms.ChoiceField(choices=QUARTERS, widget=forms.Select(attrs={'class': 'form-control'}))
+    # deal_type = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect(), initial=1, )
+    deal_type = forms.ChoiceField(label="거래유형", choices=CHOICES, widget = forms.Select(attrs={'class': 'form-control'}))
+
+    si_code = CustomChoiceField(label="시", choices=rs_si_code_choice, widget = forms.Select(attrs={'class': 'form-control'}))
+    gu_code = CustomChoiceField(label="구", choices=rs_gu_code_choice, widget=forms.Select(attrs={'class': 'form-control'}))
+    dong_code = CustomChoiceField(label="동", choices=rs_dong_code_choice, widget=forms.Select(attrs={'class': 'form-control'}))
+
+    start_year = forms.ChoiceField(label ="년(시작)",choices=YEARS, widget=forms.Select(attrs={'class': 'form-control'}))
+    start_quarter = forms.ChoiceField(label ="분기(시작)",choices=QUARTERS, widget=forms.Select(attrs={'class': 'form-control'}))
+    end_year = forms.ChoiceField(label ="년(끝)", choices=YEARS, widget=forms.Select(attrs={'class': 'form-control'}))
+    end_quarter = forms.ChoiceField(label ="분기(끝)", choices=QUARTERS, widget=forms.Select(attrs={'class': 'form-control'}))
+
+    # address_keyword = forms.CharField(lable="주소 키워드")
+    # keyword = forms.CharField(lable ="키워드")
 
     # priod : we don't need selet it due to default value
 
-    def clean_end_quarter(self):
-        data = self.cleaned_data['end_quarter']
-        if False:
-            raise ValidationError(
-                # _('%(value)s is not an wow number'),
-                _('XXX You should select right area'),
-                params={'value': 3},
-            )
+    # def clean_end_quarter(self):
+    #     data = self.cleaned_data['end_quarter']
+    #     if False:
+    #         raise ValidationError(
+    #             # _('%(value)s is not an wow number'),
+    #             _('XXX You should select right area'),
+    #             params={'value': 3},
+    #         )
+    #
+    #     return data
 
-        return data

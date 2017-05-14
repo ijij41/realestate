@@ -12,16 +12,16 @@
     <title>SB Admin 2 - Bootstrap Admin Theme</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="../../../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="../../../static/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="/static/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="../../../static/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/static/dist/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="../../../static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,8 +32,8 @@
 
 </head>
 
-<body>
 
+<body>
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
@@ -42,13 +42,14 @@
                         <h3 class="panel-title">Please Sign In</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form">
+                        <form name="login" role="form" action="." method="post">{% csrf_token %}
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
+                                    <input class="form-control" placeholder="{{ form.username.label }}" name="{{ form.username.name }}" type="email" autofocus>
+
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                    <input class="form-control" placeholder="{{ form.password.label }}" name="{{ form.password.name }}" type="password" value="">
                                 </div>
                                 <div class="checkbox">
                                     <label>
@@ -56,7 +57,12 @@
                                     </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>
+                                <a href="javascript:login.submit();" class="btn btn-lg btn-success btn-block">Login</a>
+                                <p class="text-muted"></p><a href="{% url 'realestate:register' %}">Sign Up</a></p>
+                                <!--a href="../../realestate/templates/pages/index.html" class="btn btn-lg btn-success btn-block">Sign Up</a-->
+                                <!--input type="submit" class="btn btn-lg btn-success btn-block">Login</input-->
+                                <!--input type="submit" class="btn btn-lg btn-success btn-block">Login</input-->
+
                             </fieldset>
                         </form>
                     </div>
@@ -66,17 +72,18 @@
     </div>
 
     <!-- jQuery -->
-    <script src="../../../static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="../../../static/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="../../../static/vendor/metisMenu/metisMenu.min.js"></script>
+    <script src="/static/vendor/metisMenu/metisMenu.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="../../../static/dist/js/sb-admin-2.js"></script>
+    <script src="/static/dist/js/sb-admin-2.js"></script>
 
 </body>
 
 </html>
+

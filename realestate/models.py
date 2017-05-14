@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 from django.db import models
@@ -24,6 +25,10 @@ class Address(models.Model):
         # class Meta:
         #     managed = False
         #     db_table = 'address'
+
+
+# class DealManager(models.Manager):
+#     def
 
 class Deal(models.Model):
     housetype = models.CharField(db_column='houseType', max_length=1)  # Field name made lowercase.
@@ -56,8 +61,32 @@ class Deal(models.Model):
     umd_nm = models.CharField(db_column='UMD_NM', max_length=40, blank=True, null=True)  # Field name made lowercase.
     right_gbn = models.IntegerField(db_column='RIGHT_GBN', blank=True, null=True)  # Field name made lowercase.
 
+
+    # object  = DealManager()
+
+
+    @property
+    def get_housetype(self):
+        housetypeDict = {'A': '아파트', 'B': 'VILLA', 'C': '단독/주택', 'E': 'OFFICETEL', 'F': 'DEAL_RIGHT', 'G': 'LAND'}
+        return housetypeDict[self.housetype]
+
+
+
     def __unicode__(self):
         return self.bldg_nm
+
+    # @classmethod
+    # def dealtypeStr(cls, code):
+    #     dealtypeDict = {'1': 'DEAL', '2': 'RENT'}
+    #     return dealtypeDict[code]
+    #
+    # @classmethod
+    # def housetypeStr(cls, code):
+    #     housetypeDict = {'A': 'APT', 'B': 'VILLA', 'C': 'HOUSE', 'E': 'OFFICETEL', 'F': 'DEAL_RIGHT', 'G': 'LAND'}
+    #     return housetypeDict[code]
+
+
+
     #
     # class Meta:
     #     managed = False

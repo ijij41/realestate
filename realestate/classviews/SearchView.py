@@ -17,9 +17,6 @@ class SearchView(View):
         form = SearchForm(request.POST)
         # print request.POST['dong_code'], request.POST['your_name']
 
-
-
-
         if form.is_valid():
             # print "all values", form.__dict__
             deal_type = form.cleaned_data['deal_type']

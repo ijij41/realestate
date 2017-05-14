@@ -8,3 +8,5 @@ class TemplateTestView(TemplateView):
     #template_name = "realestate/index.html"
     # template_name = "sb-realestate/index.html"
     template_name = "pages/index.html"
+    #template_name = "pages/login.html"
+
