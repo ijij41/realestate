@@ -143,7 +143,7 @@ AUTH_PASSWORD_VALIDATORS = [
 #LOGIN_REDIRECT_URL = '/board/'
 
 LOGIN_URL = '/realestate/login/'
-# LOGIN info ijij41 dlwjdgns8524!
+# LOGIN info root dlwjdgns8524!
 # LOGIN_REDIRECT_URL = '/realestate/main/'    #after login, when we use login function provided by django auth
 LOGIN_REDIRECT_URL = '/realestate/search/'    #after login, when we use login function provided by django auth
 

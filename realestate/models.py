@@ -41,6 +41,10 @@ class Deal(models.Model):
     guguncode = models.IntegerField(db_column='gugunCode')  # Field name made lowercase.
     dongcode = models.BigIntegerField(db_column='dongCode')  # Field name made lowercase.
 
+
+    address = models.ForeignKey(Address, on_delete=models.CASCADE)
+
+
     deal_date = models.DateField(db_column='deal_data')
 
     bldg_area = models.FloatField(db_column='BLDG_AREA', blank=True, null=True)  # Field name made lowercase.
@@ -67,8 +71,14 @@ class Deal(models.Model):
 
     @property
     def get_housetype(self):
-        housetypeDict = {'A': '아파트', 'B': 'VILLA', 'C': '단독/주택', 'E': 'OFFICETEL', 'F': 'DEAL_RIGHT', 'G': 'LAND'}
+        housetypeDict = {'A': '아파트', 'B': '빌라', 'C': '단독/주택', 'E': '오피스텔', 'F': '분양권', 'G': '토지'}
         return housetypeDict[self.housetype]
+
+    @property
+    def get_dealtype(self):
+        dealtypeDict = {'1': '매매','2':'임대'}   #refer to crawlling dealdate.py in crawling directory
+        return dealtypeDict[self.dealtype]
+
 
 
 
