@@ -199,12 +199,16 @@
                                 <td>{{ deal.get_dealtype }}</td>
                                 <td>{{ deal.year }}년/{{ deal.period }}분기 - {{ deal.deal_date }}</td>
                                 <td>{{ deal.address.si_name }} &nbsp {{ deal.address.gu_name }} &nbsp {{ deal.address.dong_name }}</td>
-                                <td> a</td>
-                                <td> a</td>
-                                <td> a</td>
-                                <td> a</td>
-                                <td> a</td>
-                                <td> a</td>
+                                <td> {{ deal.bldg_area }}&#13217</td>
+                                <td> {{ deal.aptfno }}</td>
+                                <td> {{ deal.bldg_nm }}</td>
+                                <td> {{ deal.build_year }}</td>
+                                <td> {{ deal.sum_amt }}</td>
+                                {% if deal.dealtype == '2' %}
+                                <td> {{ deal.rent_amt }}</td>
+                                {% else %}
+                                <td> </td>
+                                {% endif %}
                             </tr>
                             {#                            #}
                             {#                            housetype = models.CharField(db_column='houseType', max_length=1)  # Field name made lowercase.#}
