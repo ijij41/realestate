@@ -21,7 +21,8 @@ from realestate.models import Deal, Address
 deal_types_dict = {'1': 'DEAL', '2': 'RENT'}
 deal_types = deal_types_dict.keys()  # houseType: 'DEAL','RENT'
 deal_year = [x for x in range(2006, 2017, 1)]
-deal_year = [x for x in range(2006, 2016, 1)]
+
+deal_year = [x for x in range(2016, 2017, 1)]
 deal_quarter = [x for x in range(1, 5, 1)]
 deal_build_dict = {'A': 'APT', 'B': 'VILLA', 'C': 'HOUSE', 'E': 'OFFICETEL', 'F': 'DEAL_RIGHT', 'G': 'LAND'}
 deal_build = deal_build_dict.keys()
@@ -35,6 +36,8 @@ deal_build = deal_build_dict.keys()
 
 
 def run():
+
+    #NOTE: this codes should be executed based on address
     address_list = Address.objects.all()
 
     t1 = time.time()
@@ -138,6 +141,9 @@ def run():
                                 d.umd_nm = deal_item['UMD_NM']
                             if 'RIGHT_GBN' in deal_item.keys():
                                 d.right_gbn = deal_item['RIGHT_GBN']
+
+                            d.address_id = address.pk;
+
 
                             bulk_list.append(d)
                             # save_success = False

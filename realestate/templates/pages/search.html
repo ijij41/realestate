@@ -210,53 +210,6 @@
                                 <td> </td>
                                 {% endif %}
                             </tr>
-                            {#                            #}
-                            {#                            housetype = models.CharField(db_column='houseType', max_length=1)  # Field name made lowercase.#}
-                            {#    dealtype = models.CharField(db_column='dealType', max_length=1)  # Field name made lowercase.#}
-                            {##}
-                            {#    year = models.IntegerField(db_column='Year')  # Field name made lowercase.#}
-                            {#    period = models.IntegerField(db_column='Period')  # Field name made lowercase.#}
-                            {##}
-                            {#    sidocode = models.IntegerField(db_column='sidoCode')  # Field name made lowercase.#}
-                            {#    guguncode = models.IntegerField(db_column='gugunCode')  # Field name made lowercase.#}
-                            {#    dongcode = models.BigIntegerField(db_column='dongCode')  # Field name made lowercase.#}
-                            {##}
-                            {#    deal_date = models.DateField(db_column='deal_data')#}
-                            {##}
-                            {#    bldg_area = models.FloatField(db_column='BLDG_AREA', blank=True, null=True)  # Field name made lowercase.#}
-                            {#    bobn = models.CharField(db_column='BOBN', max_length=11, blank=True, null=True)  # Field name made lowercase.#}
-                            {#    aptfno = models.CharField(db_column='APTFNO', max_length=25, blank=True, null=True)  # Field name made lowercase.#}
-                            {#    deal_dd = models.CharField(db_column='DEAL_DD', max_length=11, blank=True, null=True)  # Field name made lowercase.#}
-                            {#    deal_mm = models.IntegerField(db_column='DEAL_MM', blank=True, null=True)  # Field name made lowercase.#}
-                            {#    bldg_nm = models.CharField(db_column='BLDG_NM', max_length=100, blank=True, null=True)  # Field name made lowercase.#}
-                            {#    bubn = models.CharField(db_column='BUBN', max_length=100, blank=True, null=True)  # Field name made lowercase.#}
-                            {#    bldg_cd = models.BigIntegerField(db_column='BLDG_CD', blank=True, null=True)  # Field name made lowercase.#}
-                            {#    build_year = models.IntegerField(db_column='BUILD_YEAR', blank=True, null=True)  # Field name made lowercase.#}
-                            {#    sum_amt = models.IntegerField(db_column='SUM_AMT', blank=True, null=True)  # Field name made lowercase.#}
-                            {#    rent_amt = models.IntegerField(db_column='RENT_AMT', blank=True, null=True)  # Field name made lowercase.#}
-                            {#    tot_area = models.FloatField(db_column='TOT_AREA', blank=True, null=True)  # Field name made lowercase.#}
-                            {#    bldg_muse_nm = models.CharField(db_column='BLDG_MUSE_NM', max_length=40, blank=True,#}
-                            {#                                    null=True)  # Field name made lowercase.#}
-                            {#    lawd_cd = models.BigIntegerField(db_column='LAWD_CD', blank=True, null=True)  # Field name made lowercase.#}
-                            {#    umd_nm = models.CharField(db_column='UMD_NM', max_length=40, blank=True, null=True)  # Field name made lowercase.#}
-                            {#    right_gbn = models.IntegerField(db_column='RIGHT_GBN', blank=True, null=True)  # Field name made lowercase.#}
-                            {##}
-                            {##}
-                            {##}
-                            {#                    <tr class="odd gradeX">#}
-                            {#                        <td>Trident</td>#}
-                            {#                        <td>Internet Explorer 4.0</td>#}
-                            {#                        <td>Win 95+</td>#}
-                            {#                        <td class="center">4</td>#}
-                            {#                        <td class="center">X</td>#}
-                            {#                    </tr>#}
-                            {#                    <tr class="even gradeC">#}
-                            {#                        <td>Trident</td>#}
-                            {#                        <td>Internet Explorer 5.0</td>#}
-                            {#                        <td>Win 95+</td>#}
-                            {#                        <td class="center">5</td>#}
-                            {#                        <td class="center">C</td>#}
-                            {#                    </tr>#}
 
                         {% endfor %}
                     {% else %}
@@ -277,17 +230,42 @@
                     <div class="col-sm-6">
                         <div id="dataTables-example_paginate" class="dataTables_paginate paging_simple_numbers">
                             <ul class="pagination">
+
+                                {% if not previous_page %}
                                 <li id="dataTables-example_previous" class="paginate_button previous disabled"
                                     aria-controls="dataTables-example" tabindex="0">
+                                {% else %}
+                                <li id="dataTables-example_previous" class="paginate_button previous"
+                                    aria-controls="dataTables-example" tabindex="0">
+                                {% endif %}
                                     <a href="#">Previous</a>
                                 </li>
+
+                               {{ current_page }}
+                                {% for p in page_list %}
+
+                                {% if p == current_page %}
                                 <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0">
-                                    <a href="#">1</a>
+                                    <a href="#">{{ p }}</a>
                                 </li>
+                                {% else %}
+                                    <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0">
+                                    <a href="#">--{{ p }}</a>
+                                    </li>
+                                {% endif %}
+                                {%  endfor %}
+
+                                {% if not next_page %}
                                 <li id="dataTables-example_next" class="paginate_button next disabled"
                                     aria-controls="dataTables-example" tabindex="0">
+                                {% else %}
+                                    <li id="dataTables-example_next" class="paginate_button next"
+                                    aria-controls="dataTables-example" tabindex="0">
+                                {% endif %}
                                     <a href="#">Next</a>
                                 </li>
+
+
                             </ul>
                         </div>
                     </div>

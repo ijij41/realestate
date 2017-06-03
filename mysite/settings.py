@@ -106,9 +106,9 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
-        #http://52.91.204.12/phpmyadmin/
-        'NAME': 'kunta',
-        # 'NAME': 'kunta_1',
+        #http://54.224.103.57/phpmyadmin/
+        #'NAME': 'kunta',
+        'NAME': 'kunta_2',
         'USER': 'root',
         'PASSWORD': 'dlwjdgns',
         'HOST': '54.224.103.57',

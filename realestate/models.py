@@ -9,6 +9,7 @@ from django.db import models
 
 
 class Address(models.Model):
+
     si_code = models.IntegerField()
     si_name = models.CharField(max_length=20)
     gu_code = models.IntegerField()
@@ -37,6 +38,7 @@ class Deal(models.Model):
     year = models.IntegerField(db_column='Year')  # Field name made lowercase.
     period = models.IntegerField(db_column='Period')  # Field name made lowercase.
 
+    # TODO can we do remove this field for removing duplicate
     sidocode = models.IntegerField(db_column='sidoCode')  # Field name made lowercase.
     guguncode = models.IntegerField(db_column='gugunCode')  # Field name made lowercase.
     dongcode = models.BigIntegerField(db_column='dongCode')  # Field name made lowercase.
