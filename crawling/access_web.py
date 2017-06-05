@@ -66,6 +66,7 @@ def access_web_retrun_dict(url):
         success_access = True
         # break
     except urllib2.URLError as ue:
+        print 'error url:', url
         print ue
 
     if not success_access:

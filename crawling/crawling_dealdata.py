@@ -27,36 +27,35 @@ deal_quarter = [x for x in range(1, 5, 1)]
 deal_build_dict = {'A': 'APT', 'B': 'VILLA', 'C': 'HOUSE', 'E': 'OFFICETEL', 'F': 'DEAL_RIGHT', 'G': 'LAND'}
 deal_build = deal_build_dict.keys()
 
-
-# deal_types = ['1','2']  # houseType: 'DEAL','RENT'
-# deal_year = [2016]
-# deal_quarter = [1,2]
+deal_types = ['1', '2']  # houseType: 'DEAL','RENT'
+deal_year = [2016]
+deal_quarter = [1, 2, 3, 4]
 # # deal_build = ['A','B','C','E','F','G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
-# deal_build = ['A','B','C','E','F','G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
+deal_build = ['A', 'B', 'C', 'E', 'F', 'G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
+deal_build = ['E']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
 
 
 def run():
-
-    #NOTE: this codes should be executed based on address
+    # NOTE: this codes should be executed based on address
     address_list = Address.objects.all()
-
+    compare_insert_row = 1
     t1 = time.time()
 
     for year in deal_year:
         for quarter in deal_quarter:
             for build_type in deal_build:
                 for deal_type in deal_types:
+                    total_insert_row = 0
                     if (build_type is 'F' or build_type is 'G') and (deal_type is '2'):
                         continue
 
-                    # print year, quarter, build_type, deal_type
                     # continue
 
                     for addr_idx, address in enumerate(address_list):
-                        if addr_idx % 50 == 0:
+                        if (addr_idx + 1) % 50 == 0:
                             time.sleep(60)
 
-                        print addr_idx, address.dong_code, address.si_name, address.gu_name, address.dong_name, build_type, deal_type, year, quarter
+                        # print addr_idx, address.dong_code, address.si_name, address.gu_name, address.dong_name, build_type, deal_type, year, quarter
 
                         # print "%s %s %s %s %s" % (
                         #     deal_build_dict[build_type], deal_types_dict[deal_type], year, quarter,
@@ -67,7 +66,7 @@ def run():
 
                         # dict_return = access_web.access_web_retrun_dict(url)
                         #
-                        print "url:", url
+                        # print "url:", url
                         success_access_web = False
                         for i in range(0, 5):
                             dict_return = access_web.access_web_retrun_dict(url)
@@ -144,7 +143,6 @@ def run():
 
                             d.address_id = address.pk;
 
-
                             bulk_list.append(d)
                             # save_success = False
                             # for try_idx in range(0, 3):
@@ -163,6 +161,11 @@ def run():
                             try:
                                 Deal.objects.bulk_create(bulk_list)
                                 save_success = True
+                                total_insert_row = total_insert_row + len(bulk_list)
+                                if (not compare_insert_row == total_insert_row):
+                                    compare_insert_row = total_insert_row
+                                    print "Total insert row:", total_insert_row
+
                                 break
                             except OperationalError as oe:
                                 print oe
@@ -172,6 +175,8 @@ def run():
                             t2 = time.time()
                             print t2 - t1
                             sys.exit("db save error")
+
+                print "Year:", year, "Quarter:", quarter, "BuildType:", build_type, "DealType:", deal_type, "Total DB insert count:", total_insert_row
 
     t2 = time.time()
     print t2 - t1

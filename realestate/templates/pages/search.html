@@ -55,7 +55,7 @@
 					url : "../ajax/get_address_do/gu/"+$("#{{ form.si_code.auto_id }} option:selected").val(),
 					success : function(data) {
 						loadCombo($("#{{ form.gu_code.auto_id }}"), data.data);
-						//$("#{{ form.gu_code.auto_id }}").val("");
+
 					},
 					error : function(request,status,error){
 						alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -70,7 +70,7 @@
 					url : "../ajax/get_address_do/dong/"+$("#{{ form.gu_code.auto_id }} option:selected").val(),
 					success : function(data) {
 						loadCombo($("#{{ form.dong_code.auto_id }}"), data.data);
-						//$("#{{ form.dong_code.auto_id }}").val("");
+
 					},
 					error : function(request,status,error){
 						alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -78,6 +78,9 @@
 				});
 
 			});
+
+
+
 
 
 
@@ -132,6 +135,12 @@
 		});
 	}
 **/
+    function page_move(m_page){
+        document.forms['search_form'].action = '{% url 'realestate:search' %}?page=m_page';
+        document.forms['search_form'].method = 'POST';
+        document.forms['search_form'].submit();
+
+    }
 </script>
 
 
@@ -155,7 +164,7 @@
                 <label>검색조건</label>
                 <div class="panel-body">
 {#                    TODO name driven from djnago#}
-                    <form action="." method = "post" name="search_form">{% csrf_token %}
+                    <form id='search_from' action="{% url 'realestate:search' %}?page=1" method = "post" name="search_form">{% csrf_token %}
                             <!--div class="col-lg-5"-->
                                 <div class="form-group">
                                 {{ form.as_table }}
@@ -241,16 +250,16 @@
                                     <a href="#">Previous</a>
                                 </li>
 
-                               {{ current_page }}
+
                                 {% for p in page_list %}
 
                                 {% if p == current_page %}
                                 <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0">
-                                    <a href="#">{{ p }}</a>
+                                    <a href="javascript:page_move({{ p }})">{{ p }}</a>
                                 </li>
                                 {% else %}
-                                    <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0">
-                                    <a href="#">--{{ p }}</a>
+                                    <li class="paginate_button" aria-controls="dataTables-example" tabindex="0">
+                                    <a href="?page={{ p }}">{{ p }}</a>
                                     </li>
                                 {% endif %}
                                 {%  endfor %}
