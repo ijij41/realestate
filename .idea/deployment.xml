@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" showNewOnSourceInSync="false">
+  <component name="PublishConfigData" serverName="realestate server" showNewOnSourceInSync="false">
     <serverData>
-      <paths name="aws-1">
+      <paths name="realestate server">
         <serverdata>
           <mappings>
-            <mapping deploy="djangotest/release/realestate" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/djangotest/release" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
