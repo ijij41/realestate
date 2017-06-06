@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 'startpolls',
     'realestate',
-
+    'wedding',
     'post_service',
     'user_manager',
     # 'rest_framework',

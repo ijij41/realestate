@@ -47,7 +47,6 @@ urlpatterns = [
     url(r'^main/$', TemplateView.as_view(template_name='pages/index.html'), name="main"),
 
 
-    url(r'^wedding/$', TemplateView.as_view(template_name='realestate/wedding.html'), name="main"),
 
     url(r'^search/$', SearchFormView.as_view(), name="search"),
     url(r'^lv/page(?P<page>[0-9]+)/$', LV.as_view(), name="search_page"),

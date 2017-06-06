@@ -18,6 +18,7 @@ from django.contrib import admin
 
 urlpatterns = [
     # url(r'^startpolls/', include('startpolls.urls',namespace='startpolls')),
+    url(r'^wedding/', include('wedding.urls', namespace='wedding')),
     url(r'^realestate/', include('realestate.urls', namespace='realestate')),
     url(r'^board/', include('post_service.urls', namespace='post_service')),
     url(r'^user/', include('user_manager.urls', namespace='user_manager')),
