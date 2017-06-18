@@ -1,4 +1,4 @@
-{%  extends "pages/base.html" %}
+{% extends "pages/base.html" %}
 
 
 {% block head-css %}
@@ -13,14 +13,14 @@
 {% block head-custom-js %}
 
 
-<script type="text/javaScript">
+    <script type="text/javaScript">
 
-	// through jquery, communication to server in background. In addtion, we use ajax as library.
+        // through jquery, communication to server in background. In addtion, we use ajax as library.
 
-	$(function() {
+        $(function () {
 
             /**
-			$.ajax({
+             $.ajax({
 				url : "../ajax/get_address_do/si/0/",
 				success : function(data) {
 					loadCombo($("#{{ form.si_code.auto_id }}"), data.data);
@@ -36,13 +36,13 @@
             $("#{{ form.si_code.auto_id }}").val(11);   //서울특별시
 
             before_year = current_year() - 1;
-            if(before_year<2006){
-                before_year=2006;
+            if (before_year < 2006) {
+                before_year = 2006;
             }
             /**
-            alert(before_year);
-            alert(current_year());
-            alert(current_quarter());
+             alert(before_year);
+             alert(current_year());
+             alert(current_quarter());
              **/
             $("#{{ form.start_year.auto_id }}").val(before_year);
             $("#{{ form.start_quarter.auto_id }}").val(current_quarter());
@@ -50,45 +50,38 @@
             $("#{{ form.end_quarter.auto_id }}").val(current_quarter());
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			$("#{{ form.si_code.auto_id }}").change(function() {   //call this function. when si code is changed
-				$.ajax({
-					url : "../ajax/get_address_do/gu/"+$("#{{ form.si_code.auto_id }} option:selected").val(),
-					success : function(data) {
-						loadCombo($("#{{ form.gu_code.auto_id }}"), data.data);
+            $("#{{ form.si_code.auto_id }}").change(function () {   //call this function. when si code is changed
+                $.ajax({
+                    url: "../ajax/get_address_do/gu/" + $("#{{ form.si_code.auto_id }} option:selected").val(),
+                    success: function (data) {
+                        loadCombo($("#{{ form.gu_code.auto_id }}"), data.data);
 
-					},
-					error : function(request,status,error){
-						alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-					}
-				});
+                    },
+                    error: function (request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
 
-			});
-
-
-			$("#{{ form.gu_code.auto_id }}").change(function() {  //call this function. when gu code combi is changed
-				$.ajax({
-					url : "../ajax/get_address_do/dong/"+$("#{{ form.gu_code.auto_id }} option:selected").val(),
-					success : function(data) {
-						loadCombo($("#{{ form.dong_code.auto_id }}"), data.data);
-
-					},
-					error : function(request,status,error){
-						alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-					}
-				});
-
-			});
+            });
 
 
+            $("#{{ form.gu_code.auto_id }}").change(function () {  //call this function. when gu code combi is changed
+                $.ajax({
+                    url: "../ajax/get_address_do/dong/" + $("#{{ form.gu_code.auto_id }} option:selected").val(),
+                    success: function (data) {
+                        loadCombo($("#{{ form.dong_code.auto_id }}"), data.data);
+
+                    },
+                    error: function (request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
+
+            });
 
 
-
-
-
-
-
-/**
-			$("#form_address").submit(function(e) {     // call this function when form is submitted
+            /**
+             $("#form_address").submit(function(e) {     // call this function when form is submitted
 				//alert('getdata');
 				//val datas = $(this).serialize();
 				//var datas=$(this).serialize();
@@ -116,14 +109,36 @@
 				e.preventDefault();
 				//echo('aa');
 			});
- **/
+             **/
 
 
-	});
+        });
+
+        function move_page(page_num) {
+
+            var formData = $("#search_from").serialize();
+
+            $.ajax({
+                method: "post",
+                url: "../ajax/get_search/" + page_num+"/",
+                data: formData,
+                success: function (data) {
+
+                    obj = $.parseJSON(data.return_data);
+                    alert(data.return_data);
+                    alert(obj);
+                    console.log( obj );
+
+                },
+                error: function (request, status, error) {
+                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                }
+            });
+        }
 
 
-/**
-	function addOnData(data) {
+        /**
+         function addOnData(data) {
 		//alert('in addon data');
 		//alert(data);
 		$(data).each( function() {
@@ -134,14 +149,14 @@
 			$("#result_from_search").append("<div>"+dongcode+" , "+bldg_nm+"</div>");
 		});
 	}
-**/
-    function page_move(m_page){
-        document.forms['search_form'].action = '{% url 'realestate:search' %}?page=m_page';
-        document.forms['search_form'].method = 'POST';
-        document.forms['search_form'].submit();
+         **/
+        function page_move(m_page) {
+            document.forms['search_form'].action = '{% url 'realestate:search' %}?page=m_page';
+            document.forms['search_form'].method = 'POST';
+            document.forms['search_form'].submit();
 
-    }
-</script>
+        }
+    </script>
 
 
 {% endblock %}
@@ -163,17 +178,19 @@
             <div class="panel-heading">
                 <label>검색조건</label>
                 <div class="panel-body">
-{#                    TODO name driven from djnago#}
-                    <form id='search_from' action="{% url 'realestate:search' %}?page=1" method = "post" name="search_form">{% csrf_token %}
-                            <!--div class="col-lg-5"-->
-                                <div class="form-group">
-                                {{ form.as_table }}
-                                </div>
-                                <button type="button" class="btn btn-primary" onclick="search_form.submit();">조회</button>
-                            <!--/div-->
-                            <!--a href="javascript:login.submit();" class="btn btn-lg btn-success btn-block">Login</a>
-                            <input type="submit" value="submit"-->
-                       </form>
+                    {#                    TODO name driven from djnago#}
+                    <form id='search_from' action="{% url 'realestate:search' %}?page=1" method="post"
+                          name="search_form">{% csrf_token %}
+                        <!--div class="col-lg-5"-->
+                        <div class="form-group">
+                            {{ form.as_table }}
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="search_form.submit();">조회</button>
+{#                        <button type="button" class="btn btn-primary" onclick="javascript:move_page(2);">조회</button>#}
+                        <!--/div-->
+                        <!--a href="javascript:login.submit();" class="btn btn-lg btn-success btn-block">Login</a>
+                        <input type="submit" value="submit"-->
+                    </form>
                 </div>
 
             </div>
@@ -207,23 +224,24 @@
                                 <td>{{ deal.get_housetype }}</td>
                                 <td>{{ deal.get_dealtype }}</td>
                                 <td>{{ deal.year }}년/{{ deal.period }}분기 - {{ deal.deal_date }}</td>
-                                <td>{{ deal.address.si_name }} &nbsp {{ deal.address.gu_name }} &nbsp {{ deal.address.dong_name }}</td>
+                                <td>{{ deal.address.si_name }} &nbsp {{ deal.address.gu_name }}
+                                    &nbsp {{ deal.address.dong_name }}</td>
                                 <td> {{ deal.bldg_area }}&#13217</td>
                                 <td> {{ deal.aptfno }}</td>
                                 <td> {{ deal.bldg_nm }}</td>
                                 <td> {{ deal.build_year }}</td>
                                 <td> {{ deal.sum_amt }}</td>
                                 {% if deal.dealtype == '2' %}
-                                <td> {{ deal.rent_amt }}</td>
+                                    <td> {{ deal.rent_amt }}</td>
                                 {% else %}
-                                <td> </td>
+                                    <td></td>
                                 {% endif %}
                             </tr>
 
                         {% endfor %}
                     {% else %}
                         <tr class="odd">
-                                <td class="dataTables_empty" colspan="10" valign="top">No data available in table</td>
+                            <td class="dataTables_empty" colspan="10" valign="top">No data available in table</td>
                         </tr>
                     {% endif %}
                     </tbody>
@@ -241,37 +259,38 @@
                             <ul class="pagination">
 
                                 {% if not previous_page %}
-                                <li id="dataTables-example_previous" class="paginate_button previous disabled"
-                                    aria-controls="dataTables-example" tabindex="0">
-                                {% else %}
-                                <li id="dataTables-example_previous" class="paginate_button previous"
-                                    aria-controls="dataTables-example" tabindex="0">
+                                    <li id="dataTables-example_previous" class="paginate_button previous disabled"
+                                        aria-controls="dataTables-example" tabindex="0">
+                                        {% else %}
+                                    <li id="dataTables-example_previous" class="paginate_button previous"
+                                        aria-controls="dataTables-example" tabindex="0">
                                 {% endif %}
-                                    <a href="#">Previous</a>
+                                <a href="#">Previous</a>
                                 </li>
 
 
                                 {% for p in page_list %}
 
-                                {% if p == current_page %}
-                                <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0">
-                                    <a href="javascript:page_move({{ p }})">{{ p }}</a>
-                                </li>
-                                {% else %}
-                                    <li class="paginate_button" aria-controls="dataTables-example" tabindex="0">
-                                    <a href="?page={{ p }}">{{ p }}</a>
-                                    </li>
-                                {% endif %}
-                                {%  endfor %}
+                                    {% if p == current_page %}
+                                        <li class="paginate_button active" aria-controls="dataTables-example"
+                                            tabindex="0">
+                                            <a href="javascript:move_page({{ p }})">{{ p }}</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="paginate_button" aria-controls="dataTables-example" tabindex="0">
+                                            <a href="javascript:move_page({{ p }})">{{ p }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
 
                                 {% if not next_page %}
-                                <li id="dataTables-example_next" class="paginate_button next disabled"
-                                    aria-controls="dataTables-example" tabindex="0">
-                                {% else %}
+                                    <li id="dataTables-example_next" class="paginate_button next disabled"
+                                        aria-controls="dataTables-example" tabindex="0">
+                                        {% else %}
                                     <li id="dataTables-example_next" class="paginate_button next"
-                                    aria-controls="dataTables-example" tabindex="0">
+                                        aria-controls="dataTables-example" tabindex="0">
                                 {% endif %}
-                                    <a href="#">Next</a>
+                                <a href="#">Next</a>
                                 </li>
 
 
@@ -283,7 +302,6 @@
 
             </div>
             <!-- /.panel-body -->
-
 
 
         </div>

@@ -30,9 +30,10 @@ deal_build = deal_build_dict.keys()
 deal_types = ['1', '2']  # houseType: 'DEAL','RENT'
 deal_year = [2016]
 deal_quarter = [1, 2, 3, 4]
+deal_quarter = [3, 4]
 # # deal_build = ['A','B','C','E','F','G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
 deal_build = ['A', 'B', 'C', 'E', 'F', 'G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
-deal_build = ['E']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
+#deal_build = ['E']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
 
 
 def run():
@@ -176,7 +177,7 @@ def run():
                             print t2 - t1
                             sys.exit("db save error")
 
-                print "Year:", year, "Quarter:", quarter, "BuildType:", build_type, "DealType:", deal_type, "Total DB insert count:", total_insert_row
+                    print "Year:", year, "Quarter:", quarter, "BuildType:", build_type, "DealType:", deal_type, "Total DB insert count:", total_insert_row
 
     t2 = time.time()
     print t2 - t1

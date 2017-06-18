@@ -5,8 +5,14 @@
 #
 from django.contrib.auth.forms import UserCreationForm
 
+
+
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+
+from django.core import serializers
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
+from django.http import HttpResponseRedirect, HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -36,7 +42,13 @@ class LV(ListView):
 
 def get_address_do(request, query_id, query_key):
 	leads_as_json = get_address(query_id, query_key)
-	return JsonResponse(leads_as_json)
+	return JsonResponse(leads_as_json)  # in case of using custom dic
+
+
+
+def get_search(request, page_num):
+    result_as_json = get_search_result(page_num)
+    return result_as_json  #in case of coverting query set to json
 
 
 
@@ -44,6 +56,56 @@ def get_address_do(request, query_id, query_key):
 ########################################################################
 
 #private function
+
+
+def get_search_result(page_num):
+
+
+    post_list = Deal.objects.all()
+    num_content_per_page = 5
+    paginator = Paginator(post_list, num_content_per_page)
+    cur_page = page_num
+
+    try:
+        contacts = paginator.page(cur_page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        contacts = paginator.page(1)
+        cur_page = 1
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        contacts = paginator.page(paginator.num_pages)
+
+    page_list = [1, 2, 3, 4, 5]
+    previous_page = 0
+    next_page = 6
+
+    context = {}
+
+    # context['object_list'] = contacts
+    context['object_list'] = contacts.object_list
+
+    context['page_list'] = page_list
+
+    context['previous_page'] = previous_page
+    context['next_page'] = next_page
+
+    context['current_page'] = int(cur_page)
+
+    # test = {'content':"",'page_info':{'page_list':[1,2,3,4],'prev_page':0,'next_page':5,'cur_page':3}}
+    # return JsonResponse(test)
+
+    # data = serializers.serialize("json",contacts.object_list)
+    # return HttpResponse(data,content_type='application/json')
+
+    data = serializers.serialize("json",contacts.object_list)
+    context['object_list'] = data
+    return JsonResponse(context)
+    # return HttpResponse(data,content_type='application/json')
+
+
+
+
 
 
 def get_address(query_id, query_key):
@@ -120,3 +182,4 @@ def store_data_db_test(request):
 # def session_confirm(request):
 #     print User.get_full_name()
 #     return None
+
