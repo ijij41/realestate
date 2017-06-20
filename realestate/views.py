@@ -54,7 +54,7 @@ def get_address_do(request, query_id, query_key):
 @csrf_exempt
 def get_search(request, page_num):
     result_as_json = get_search_result(page_num)
-    return result_as_json  #in case of coverting query set to json
+    return JsonResponse(result_as_json) #in case of coverting query set to json
 
 
 
@@ -67,7 +67,7 @@ def get_search(request, page_num):
 def get_search_result(page_num):
 
 
-    post_list = Deal.objects.all()[1:2]
+    post_list = Deal.objects.all()
     num_content_per_page = 5
     paginator = Paginator(post_list, num_content_per_page)
     cur_page = page_num
@@ -82,20 +82,17 @@ def get_search_result(page_num):
         # If page is out of range (e.g. 9999), deliver last page of results.
         contacts = paginator.page(paginator.num_pages)
 
-    page_list = [1, 2, 3, 4, 5]
-    previous_page = 0
-    next_page = 6
-
-    context = {}
-
+    # general paginate
+    # page_list = [1, 2, 3, 4, 5]
+    # previous_page = 0
+    # next_page = 6
+    # context = {}
     # context['object_list'] = contacts
     # context['object_list'] = contacts.object_list
     #
-    # context['page_list'] = page_list
-    #
+    # context['page_list'] = page_list    #
     # context['previous_page'] = previous_page
-    # context['next_page'] = next_page
-    #
+    # context['next_page'] = next_page    #
     # context['current_page'] = int(cur_page)
 
     # case 1
@@ -103,11 +100,9 @@ def get_search_result(page_num):
     # return JsonResponse(test)
 
     # case 2
-    data = serializers.serialize("json",contacts.object_list)
-    d = ast.literal_eval(data)
-    print type(d)
-
-    return HttpResponse(data,content_type='application/json')
+    # data = serializers.serialize("json",contacts.object_list)
+    # d = ast.literal_eval(data)
+    # return HttpResponse(data,content_type='application/json')
 
     # case 3
     # data = serializers.serialize("json", contacts.object_list)
@@ -118,14 +113,13 @@ def get_search_result(page_num):
     # data = serializers.serialize("json", contacts.object_list)
     # # context['data'] = data
     # # return JsonResponse(context)
-    #
-    # aaa = json.loads(data)
-    # print ast.literal_eval(data)
-    # prices_json = json.dumps(data, cls=DjangoJSONEncoder)
-    # print "ccccc", type(aaa)
-    # print "aaaaa", prices_json
-    # print "bbbbbb", type(prices_json)
-    # return JsonResponse(aaa)
+
+    # About json http://pythonstudy.xyz/python/article/205-JSON-%EB%8D%B0%EC%9D%B4%ED%83%80
+
+    data = serializers.serialize("json", post_list)
+    # data = serializers.serialize("json", contacts.object_list)
+    dict_data = json.loads(data)
+    return {'data':dict_data}
 
 
 
