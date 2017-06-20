@@ -68,7 +68,7 @@ def get_search_result(page_num):
 
 
     post_list = Deal.objects.all()
-    num_content_per_page = 5
+    num_content_per_page = 10
     paginator = Paginator(post_list, num_content_per_page)
     cur_page = page_num
 
@@ -116,10 +116,10 @@ def get_search_result(page_num):
 
     # About json http://pythonstudy.xyz/python/article/205-JSON-%EB%8D%B0%EC%9D%B4%ED%83%80
 
-    data = serializers.serialize("json", post_list)
-    # data = serializers.serialize("json", contacts.object_list)
+    # data = serializers.serialize("json", post_list)
+    data = serializers.serialize("json", contacts.object_list)
     dict_data = json.loads(data)
-    return {'data':dict_data}
+    return {"recordsTotal": 57, "recordsFiltered": 57, 'data':dict_data}
 
 
 

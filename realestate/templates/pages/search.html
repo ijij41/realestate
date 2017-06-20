@@ -120,7 +120,9 @@
             var formData = $("#search_from").serialize();
 
             $('#dataTables-example').DataTable({
-                dom: "Bfrtip",
+{#                dom: "Bfrtip",#}
+                processing: true,
+                serverSide: true,
                 ajax: {
 
                     url: "../ajax/get_search/" + 1 + "/",
