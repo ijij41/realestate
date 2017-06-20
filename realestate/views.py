@@ -5,9 +5,15 @@
 #
 from django.contrib.auth.forms import UserCreationForm
 
-
+from django.template import RequestContext
 
 from django.contrib.auth.models import User
+
+import ast
+import json
+from django.core.serializers.json import DjangoJSONEncoder
+
+from django.views.decorators.csrf import csrf_exempt
 
 from django.core import serializers
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -45,7 +51,7 @@ def get_address_do(request, query_id, query_key):
 	return JsonResponse(leads_as_json)  # in case of using custom dic
 
 
-
+@csrf_exempt
 def get_search(request, page_num):
     result_as_json = get_search_result(page_num)
     return result_as_json  #in case of coverting query set to json
@@ -61,7 +67,7 @@ def get_search(request, page_num):
 def get_search_result(page_num):
 
 
-    post_list = Deal.objects.all()
+    post_list = Deal.objects.all()[1:2]
     num_content_per_page = 5
     paginator = Paginator(post_list, num_content_per_page)
     cur_page = page_num
@@ -83,26 +89,43 @@ def get_search_result(page_num):
     context = {}
 
     # context['object_list'] = contacts
-    context['object_list'] = contacts.object_list
+    # context['object_list'] = contacts.object_list
+    #
+    # context['page_list'] = page_list
+    #
+    # context['previous_page'] = previous_page
+    # context['next_page'] = next_page
+    #
+    # context['current_page'] = int(cur_page)
 
-    context['page_list'] = page_list
-
-    context['previous_page'] = previous_page
-    context['next_page'] = next_page
-
-    context['current_page'] = int(cur_page)
-
-    # test = {'content':"",'page_info':{'page_list':[1,2,3,4],'prev_page':0,'next_page':5,'cur_page':3}}
+    # case 1
+    # test = {'data': [{'content':"aaa",'page_info':{'page_list':[1,2,3,4],'prev_page':0,'next_page':5,'cur_page':3}}] }
     # return JsonResponse(test)
 
-    # data = serializers.serialize("json",contacts.object_list)
-    # return HttpResponse(data,content_type='application/json')
-
+    # case 2
     data = serializers.serialize("json",contacts.object_list)
-    context['object_list'] = data
-    return JsonResponse(context)
-    # return HttpResponse(data,content_type='application/json')
+    d = ast.literal_eval(data)
+    print type(d)
 
+    return HttpResponse(data,content_type='application/json')
+
+    # case 3
+    # data = serializers.serialize("json", contacts.object_list)
+    # context['object_list'] = data
+    # return JsonResponse(context)
+
+    # case 4
+    # data = serializers.serialize("json", contacts.object_list)
+    # # context['data'] = data
+    # # return JsonResponse(context)
+    #
+    # aaa = json.loads(data)
+    # print ast.literal_eval(data)
+    # prices_json = json.dumps(data, cls=DjangoJSONEncoder)
+    # print "ccccc", type(aaa)
+    # print "aaaaa", prices_json
+    # print "bbbbbb", type(prices_json)
+    # return JsonResponse(aaa)
 
 
 
