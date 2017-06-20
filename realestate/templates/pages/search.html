@@ -121,6 +121,18 @@
 
             $('#dataTables-example').DataTable({
 {#                dom: "Bfrtip",#}
+
+                "columnDefs": [
+                    {
+                        "targets": [2],
+                        "visible": false,
+                        "searchable": false
+                    },
+                    {
+                        "targets": [3],
+                        "visible": false
+                    }
+                ],
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -298,7 +310,20 @@
                         <th>월세</th>
                     </tr>
                     </thead>
-
+                    <tbody>
+                    <tr>
+                        <td>Tiger Nixon</td>
+                        <td>System Architect</td>
+                        <td>Edinburgh</td>
+                        <td>61</td>
+                        <td>2011/04/25</td>
+                        <td>$320,800</td>
+                        <td>$320,800</td>
+                        <td>$320,800</td>
+                        <td>$320,800</td>
+                        <td>$320,800</td>
+                    </tr>
+                    </tbody>
                 </table>
                 <!-- /.table-responsive -->
 
@@ -379,13 +404,12 @@
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
-{#        $(document).ready(function () {#}
-{#            $('#dataTables-example').DataTable({#}
-                {#            responsive: true#}
-{##}
-{##}
-{#            });#}
-{#        });#}
+        var table = $('#dataTables-example').DataTable();
+
+        $('#dataTables-example tbody').on('click', 'tr', function () {
+            var data = table.row(this).data();
+            alert('You clicked on ' + data[0] + '\'s row');
+        });
     </script>
 
 {% endblock %}
