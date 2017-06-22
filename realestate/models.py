@@ -49,6 +49,8 @@ class Deal(models.Model):
 
     deal_date = models.DateField(db_column='deal_data')
 
+    bldg_cd = models.BigIntegerField(db_column='BLDG_CD', blank=True,
+                                     null=True)  # Field name made lowercase.         //Building code
     bldg_area = models.FloatField(db_column='BLDG_AREA', blank=True, null=True)  # Field name made lowercase.
     bobn = models.CharField(db_column='BOBN', max_length=11, blank=True, null=True)  # Field name made lowercase.
     aptfno = models.CharField(db_column='APTFNO', max_length=25, blank=True, null=True)  # Field name made lowercase.
@@ -56,7 +58,7 @@ class Deal(models.Model):
     deal_mm = models.IntegerField(db_column='DEAL_MM', blank=True, null=True)  # Field name made lowercase.
     bldg_nm = models.CharField(db_column='BLDG_NM', max_length=100, blank=True, null=True)  # Field name made lowercase.
     bubn = models.CharField(db_column='BUBN', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    bldg_cd = models.BigIntegerField(db_column='BLDG_CD', blank=True, null=True)  # Field name made lowercase.
+
     build_year = models.IntegerField(db_column='BUILD_YEAR', blank=True, null=True)  # Field name made lowercase.
     sum_amt = models.IntegerField(db_column='SUM_AMT', blank=True, null=True)  # Field name made lowercase.
     rent_amt = models.IntegerField(db_column='RENT_AMT', blank=True, null=True)  # Field name made lowercase.
