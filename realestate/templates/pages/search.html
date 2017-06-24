@@ -118,14 +118,14 @@
         function ajax_search() {
 
             if ( $.fn.dataTable.isDataTable( '#dataTables-example' ) ) {
-                table = $('#dataTables-example').DataTable();
+                var table = $('#dataTables-example').DataTable();
                 table.clear();
                 table.draw();
             }
 
 
             var formData = $("#search_from").serialize();
-            var table = $('#dataTables-example').DataTable({
+            var dataTable = $('#dataTables-example').DataTable({
 {#                dom: "Bfrtip",#}
 {#                "columnDefs": [#}
 {#                    {#}
@@ -154,7 +154,7 @@
 
                 },
                 columns: [
-                    {data: "fields.bldg_cd"},
+{#                    {data: "fields.bldg_cd"},#}
                     {data: "fields.housetype"},
                     {data: "fields.deal_date"},
                     {data: "fields.dealtype"},
@@ -166,9 +166,9 @@
                     {data: "fields.sum_amt"},
                     {data: "fields.rent_amt"},
                 ],
-                select: true,
+{#                select: true,#}
                 destroy: true,
-                retrieve: true,
+{#                retrieve: true,#}
                 {#                buttons: [#}
                 {#                    {extend: "create", editor: editor},#}
                 {#                    {extend: "edit", editor: editor},#}
@@ -178,8 +178,9 @@
 
 
             $('#dataTables-example tbody').on('click', 'tr', function () {
-                var data = table.row(this).data();
-                alert('You clicked on ' + data[1] + '\'s row');
+                var row_data = dataTable.row(this).data();
+                console.log(row_data);
+                alert('You clicked on ' + row_data['pk'] + '\'s row');
             });
 
 {#            var formData = $("#search_from").serialize();#}
@@ -311,7 +312,6 @@
                 <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                     <thead>
                     <tr>
-                        <th>code</th>
                         <th>주택유형</th>
                         <th>거래타입</th>
                         <th>거래시기</th>
@@ -331,6 +331,7 @@
 {#                        <td>Edinburgh</td>#}
 {#                        <td>61</td>#}
 {#                        <td>2011/04/25</td>#}
+{#                        <td>$320,800</td>#}
 {#                        <td>$320,800</td>#}
 {#                        <td>$320,800</td>#}
 {#                        <td>$320,800</td>#}
@@ -418,9 +419,11 @@
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
-{#        var table = $('#dataTables-example').DataTable();#}
+{#        var table2 = $('#dataTables-example').DataTable();#}
 {#        $('#dataTables-example tbody').on('click', 'tr', function () {#}
-{#            var data = table.row(this).data();#}
+{#            var data = table2.row(this).data();#}
+{#            alert(table2.row(this))#}
+{#            console.log(table2.row(this))#}
 {#            alert('You clicked on ' + data[0] + '\'s row');#}
 {#        });#}
     </script>
