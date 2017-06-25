@@ -13,6 +13,7 @@
       <option name="ignoredIdentifiers">
         <list>
           <option value="crawling_util" />
+          <option value="post_service.forms.forms" />
         </list>
       </option>
     </inspection_tool>

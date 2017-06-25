@@ -114,7 +114,7 @@
 
         });
 
-{#DataTables has the ability to read data from virtually any JSON data source that can be obtained by Ajax#}
+
         function ajax_search() {
 
             if ( $.fn.dataTable.isDataTable( '#dataTables-example' ) ) {
@@ -125,6 +125,7 @@
 
 
             var formData = $("#search_from").serialize();
+            var formData1 = "title=ajax call";
             var dataTable = $('#dataTables-example').DataTable({
 {#                dom: "Bfrtip",#}
 {#                "columnDefs": [#}
@@ -143,10 +144,11 @@
                 ajax: {
 
                     url: "../ajax/get_search/" + 1 + "/",
-                    type: 'POST',
-                    data: formData,
-                    contentType: "application/json",
-                    dataType: "json",
+                    type: 'GET',
+                    data: formData1,
+{#                    dataType:'json',#}
+{#                    contentType: "application/json",#}
+{#                    contentType: "application/x-www-form-urlencoded",#}
 
                     error: function (request, status, error) {
                         alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -154,7 +156,6 @@
 
                 },
                 columns: [
-{#                    {data: "fields.bldg_cd"},#}
                     {data: "fields.housetype"},
                     {data: "fields.deal_date"},
                     {data: "fields.dealtype"},
@@ -166,61 +167,18 @@
                     {data: "fields.sum_amt"},
                     {data: "fields.rent_amt"},
                 ],
-{#                select: true,#}
                 destroy: true,
-{#                retrieve: true,#}
-                {#                buttons: [#}
-                {#                    {extend: "create", editor: editor},#}
-                {#                    {extend: "edit", editor: editor},#}
-                {#                    {extend: "remove", editor: editor}#}
-                {#                ]#}
+
             });
 
 
             $('#dataTables-example tbody').on('click', 'tr', function () {
                 var row_data = dataTable.row(this).data();
                 console.log(row_data);
-                alert('You clicked on ' + row_data['pk'] + '\'s row');
+                alert('You clicked -  on ' + row_data['pk'] + '\'s row');
             });
-
-{#            var formData = $("#search_from").serialize();#}
-{##}
-{#            $.ajax({#}
-{#                method: "post",#}
-{#                url: "../ajax/get_search/" + 1 + "/",#}
-{#                data: formData,#}
-{#                success: function (data) {#}
-{#                    alert("here some!!");#}
-{##}
-{#                    obj = $.parseJSON(data);#}
-{#                    alert(obj.data);#}
-{#                    alert(data.return_data);#}
-{#                    alert(obj);#}
-{#                    console.log(obj);#}
-{#                    $('#dataTables-example').DataTable({#}
-{#                        "processing": true,#}
-{#                        "ajax": obj,#}
-{#                        "columns": [#}
-{#                            {"data": "fields.housetype"},#}
-{#                            {"data": "fields.housetype"},#}
-{#                            {"data": "fields.housetype"},#}
-{#                            {"data": "fields.housetype"},#}
-{#                            {"data": "fields.housetype"},#}
-{#                            {"data": "fields.housetype"},#}
-{#                            {"data": "fields.housetype"},#}
-{#                            {"data": "fields.housetype"},#}
-{#                            {"data": "fields.housetype"},#}
-{#                            {"data": "fields.housetype"},#}
-{#                        ]#}
-{#                    });#}
-{##}
-{##}
-{#                },#}
-{#                error: function (request, status, error) {#}
-{#                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);#}
-{#                }#}
-{#            });#}
         }
+
 
         function move_page(page_num) {
 
@@ -230,12 +188,13 @@
                 method: "post",
                 url: "../ajax/get_search/" + page_num + "/",
                 data: formData,
+                datatype:'json',
                 success: function (data) {
-
-                    obj = $.parseJSON(data.return_data);
-                    alert(data.return_data);
-                    alert(obj);
-                    console.log(obj);
+                    alert("success");
+{#                    obj = $.parseJSON(data.return_data);#}
+{#                    alert(data.return_data);#}
+{#                    alert(obj);#}
+{#                    console.log(obj);#}
 
                 },
                 error: function (request, status, error) {
@@ -258,12 +217,7 @@
 		});
 	}
          **/
-{#        function page_move(m_page) {#}
-{#            document.forms['search_form'].action = '{% url 'realestate:search' %}?page=m_page';#}
-{#            document.forms['search_form'].method = 'POST';#}
-{#            document.forms['search_form'].submit();#}
-{##}
-{#        }#}
+
     </script>
 
 
@@ -294,8 +248,8 @@
                             {{ form.as_table }}
                         </div>
                         {#                        <button type="button" class="btn btn-primary" onclick="search_form.submit();">조회</button>#}
-{#                        <button type="button" class="btn btn-primary" onclick="javascript:move_page(2);">조회</button>#}
-                        <button type="button" class="btn btn-primary" onclick="javascript:ajax_search();">조회</button>
+                        <button type="button" class="btn btn-primary" onclick="javascript:move_page(2);">조회</button>
+{#                        <button type="button" class="btn btn-primary" onclick="javascript:ajax_search();">조회</button>#}
                         <!--/div-->
                         <!--a href="javascript:login.submit();" class="btn btn-lg btn-success btn-block">Login</a>
                         <input type="submit" value="submit"-->
@@ -324,75 +278,8 @@
                         <th>월세</th>
                     </tr>
                     </thead>
-{#                    <tbody>#}
-{#                    <tr>#}
-{#                        <td>Tiger Nixon</td>#}
-{#                        <td>System Architect</td>#}
-{#                        <td>Edinburgh</td>#}
-{#                        <td>61</td>#}
-{#                        <td>2011/04/25</td>#}
-{#                        <td>$320,800</td>#}
-{#                        <td>$320,800</td>#}
-{#                        <td>$320,800</td>#}
-{#                        <td>$320,800</td>#}
-{#                        <td>$320,800</td>#}
-{#                        <td>$320,800</td>#}
-{#                    </tr>#}
-{#                    </tbody>#}
                 </table>
                 <!-- /.table-responsive -->
-
-                {#                <div class="row">#}
-                {#                    <div class="col-sm-6">#}
-                {#                        <div id="dataTables-example_info" class="dataTables_info" role="status" aria-live="polite">#}
-                {#                            Showing 1 to 2 of 2 entries#}
-                {#                        </div>#}
-                {#                    </div>#}
-                {#                    <div class="col-sm-6">#}
-                {#                        <div id="dataTables-example_paginate" class="dataTables_paginate paging_simple_numbers">#}
-                {#                            <ul class="pagination">#}
-                {##}
-                {#                                {% if not previous_page %}#}
-                {#                                    <li id="dataTables-example_previous" class="paginate_button previous disabled"#}
-                {#                                        aria-controls="dataTables-example" tabindex="0">#}
-                {#                                        {% else %}#}
-                {#                                    <li id="dataTables-example_previous" class="paginate_button previous"#}
-                {#                                        aria-controls="dataTables-example" tabindex="0">#}
-                {#                                {% endif %}#}
-                {#                                <a href="#">Previous</a>#}
-                {#                                </li>#}
-                {##}
-                {##}
-                {#                                {% for p in page_list %}#}
-                {##}
-                {#                                    {% if p == current_page %}#}
-                {#                                        <li class="paginate_button active" aria-controls="dataTables-example"#}
-                {#                                            tabindex="0">#}
-                {#                                            <a href="javascript:move_page({{ p }})">{{ p }}</a>#}
-                {#                                        </li>#}
-                {#                                    {% else %}#}
-                {#                                        <li class="paginate_button" aria-controls="dataTables-example" tabindex="0">#}
-                {#                                            <a href="javascript:move_page({{ p }})">{{ p }}</a>#}
-                {#                                        </li>#}
-                {#                                    {% endif %}#}
-                {#                                {% endfor %}#}
-                {##}
-                {#                                {% if not next_page %}#}
-                {#                                    <li id="dataTables-example_next" class="paginate_button next disabled"#}
-                {#                                        aria-controls="dataTables-example" tabindex="0">#}
-                {#                                        {% else %}#}
-                {#                                    <li id="dataTables-example_next" class="paginate_button next"#}
-                {#                                        aria-controls="dataTables-example" tabindex="0">#}
-                {#                                {% endif %}#}
-                {#                                <a href="#">Next</a>#}
-                {#                                </li>#}
-                {##}
-                {##}
-                {#                            </ul>#}
-                {#                        </div>#}
-                {#                    </div>#}
-                {#                </div>#}
-                <!-- /.paginate -->
 
             </div>
             <!-- /.panel-body -->
@@ -419,13 +306,6 @@
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
-{#        var table2 = $('#dataTables-example').DataTable();#}
-{#        $('#dataTables-example tbody').on('click', 'tr', function () {#}
-{#            var data = table2.row(this).data();#}
-{#            alert(table2.row(this))#}
-{#            console.log(table2.row(this))#}
-{#            alert('You clicked on ' + data[0] + '\'s row');#}
-{#        });#}
     </script>
 
 {% endblock %}

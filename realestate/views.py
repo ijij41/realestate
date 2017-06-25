@@ -3,28 +3,23 @@
 # # Create your classviews here.
 # from django.classviews.generic import TemplateView
 #
-from django.contrib.auth.forms import UserCreationForm
 
-from django.template import RequestContext
-
-from django.contrib.auth.models import User
-
-import ast
 import json
-from django.core.serializers.json import DjangoJSONEncoder
 
 from django.views.decorators.csrf import csrf_exempt
 
 from django.core import serializers
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import ListView
 
+
 from realestate.models import Deal, Address
+
 
 
 def index(request):
@@ -53,7 +48,7 @@ def get_address_do(request, query_id, query_key):
 
 @csrf_exempt
 def get_search(request, page_num):
-    result_as_json = get_search_result(page_num)
+    result_as_json = get_search_result(request,page_num)
     return JsonResponse(result_as_json) #in case of coverting query set to json
 
 
@@ -64,8 +59,43 @@ def get_search(request, page_num):
 #private function
 
 
-def get_search_result(page_num):
+def get_search_result(request, page_num):
 
+
+    # print request.is_ajax()
+    # print request.method
+    # print request.body
+
+    # note_form = SearchForm(request.POST)
+    # print note_form
+
+    # print request.body.decode('utf-8')
+    print type(request)
+    #
+    print request.__dict__
+    print type(request)
+    print type(request.body)
+    print request
+    print request.POST
+    print request.GET
+    print request.body
+
+
+
+    # print request.GET['title']
+
+    # print simplejson.loads(request.body)
+    # print request.POST['data']
+
+    # serializers.deserialize("json",request.body))
+
+    # JSONParser().parse(request)
+    # ssss = json.loads(request.body)
+    # print ssss
+
+    # json_data = json.loads(request.body)
+    # print json_data
+    # print json_data['content']
 
     post_list = Deal.objects.all()
     num_content_per_page = 10
