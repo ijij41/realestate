@@ -125,6 +125,7 @@
 
 
             var formData = $("#search_from").serialize();
+
             var formData1 = "title=ajax call";
             var dataTable = $('#dataTables-example').DataTable({
 {#                dom: "Bfrtip",#}
@@ -142,14 +143,13 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-
                     url: "../ajax/get_search/" + 1 + "/",
-                    type: 'GET',
-                    data: formData1,
+                    type: 'post',
+                    data: formData,
+                    datatype:'json',
 {#                    dataType:'json',#}
 {#                    contentType: "application/json",#}
 {#                    contentType: "application/x-www-form-urlencoded",#}
-
                     error: function (request, status, error) {
                         alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
@@ -248,8 +248,8 @@
                             {{ form.as_table }}
                         </div>
                         {#                        <button type="button" class="btn btn-primary" onclick="search_form.submit();">조회</button>#}
-                        <button type="button" class="btn btn-primary" onclick="javascript:move_page(2);">조회</button>
-{#                        <button type="button" class="btn btn-primary" onclick="javascript:ajax_search();">조회</button>#}
+{#                        <button type="button" class="btn btn-primary" onclick="javascript:move_page(2);">조회</button>#}
+                        <button type="button" class="btn btn-primary" onclick="javascript:ajax_search();">조회</button>
                         <!--/div-->
                         <!--a href="javascript:login.submit();" class="btn btn-lg btn-success btn-block">Login</a>
                         <input type="submit" value="submit"-->
