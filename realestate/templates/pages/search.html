@@ -117,6 +117,8 @@
 
         function ajax_search() {
 
+
+
             if ( $.fn.dataTable.isDataTable( '#dataTables-example' ) ) {
                 var table = $('#dataTables-example').DataTable();
                 table.clear();
@@ -140,22 +142,22 @@
 {#                        "visible": false#}
 {#                    }#}
 {#                ],#}
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "../ajax/get_search/" + 1 + "/",
-                    type: 'post',
-                    data: formData,
-                    datatype:'json',
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "../ajax/get_search/" + 1 + "/",
+                    "type": 'POST',
+                    "data": {"userid":452},
+{#                    datatype:'json',#}
 {#                    dataType:'json',#}
 {#                    contentType: "application/json",#}
 {#                    contentType: "application/x-www-form-urlencoded",#}
-                    error: function (request, status, error) {
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                    }
+{#                    error: function (request, status, error) {#}
+{#                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);#}
+{#                    }#}
 
                 },
-                columns: [
+                "columns": [
                     {data: "fields.housetype"},
                     {data: "fields.deal_date"},
                     {data: "fields.dealtype"},
@@ -167,7 +169,7 @@
                     {data: "fields.sum_amt"},
                     {data: "fields.rent_amt"},
                 ],
-                destroy: true,
+                "destroy": true,
 
             });
 

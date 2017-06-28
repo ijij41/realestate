@@ -76,10 +76,11 @@ def get_search_result(request, page_num):
     print type(request)
     print type(request.body)
     print request
-    print request.POST
-    print request.GET
-    print request.body
+    print "POST:", request.POST
+    print "GET:", request.GET
+    print "body:", request.body
 
+    print "POst request value",     request.POST['userid']
 
 
     # print request.GET['title']
