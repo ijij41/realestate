@@ -6,6 +6,9 @@
 
 import json
 
+import datetime
+import time
+
 from django.views.decorators.csrf import csrf_exempt
 
 from django.core import serializers
@@ -61,47 +64,45 @@ def get_search(request, page_num):
 
 def get_search_result(request, page_num):
 
-
+    ########## for debug ##################
     # print request.is_ajax()
     # print request.method
     # print request.body
 
-    # note_form = SearchForm(request.POST)
-    # print note_form
-
-    # print request.body.decode('utf-8')
-    print type(request)
+    # print type(request)
     #
-    print request.__dict__
-    print type(request)
-    print type(request.body)
-    print request
-    print "POST:", request.POST
-    print "GET:", request.GET
-    print "body:", request.body
+    # print request.__dict__
+    # print type(request)
+    # print type(request.body)
+    # print request
+    # print "POST:", request.POST
+    # print "GET:", request.GET
+    # print "body:", request.body
+    #
+    # print "1POst request value",     request.POST['si_code']
+    ########################################
 
-    print "POst request value",     request.POST['userid']
 
 
-    # print request.GET['title']
+    start_year = int(request.POST['start_year'])
+    start_quarter = int(request.POST['start_quarter'])
+    end_year = int(request.POST['end_year'])
+    end_quarter = int(request.POST['end_quarter'])
 
-    # print simplejson.loads(request.body)
-    # print request.POST['data']
+    # https: // datatables.net / manual / server - side  # Sent-parameters
+    table_data_para_start = int(request.POST['start'])
+    table_data_para_length=int(request.POST['length'])
+    cur_page = table_data_para_start/table_data_para_length + 1
 
-    # serializers.deserialize("json",request.body))
-
-    # JSONParser().parse(request)
-    # ssss = json.loads(request.body)
-    # print ssss
-
-    # json_data = json.loads(request.body)
-    # print json_data
-    # print json_data['content']
-
-    post_list = Deal.objects.all()
-    num_content_per_page = 10
+    # 1 1  2 4  3 7  4 10
+    # year_range = [start_year, end_year],
+    # https: // stackoverflow.com / questions / 4668619 / django - database - query - how - to - filter - objects - by - date - range
+    post_list = Deal.objects.all().filter(deal_date__gte=datetime.date(start_year, (start_quarter*3)-2, 1),deal_date__lte=datetime.date(end_year, (end_quarter*3)-1, 1))
+    # num_content_per_page = 10
+    num_content_per_page = table_data_para_length
     paginator = Paginator(post_list, num_content_per_page)
-    cur_page = page_num
+    # cur_page = page_num  # page_num from url does not be needed because we will use start, length parameter provided from tabledata
+
 
     try:
         contacts = paginator.page(cur_page)
@@ -147,10 +148,12 @@ def get_search_result(request, page_num):
 
     # About json http://pythonstudy.xyz/python/article/205-JSON-%EB%8D%B0%EC%9D%B4%ED%83%80
 
-    # data = serializers.serialize("json", post_list)
+    # according to page request, send data  (e.g., 2 page reuqest, send page 2 data
     data = serializers.serialize("json", contacts.object_list)
     dict_data = json.loads(data)
-    return {"recordsTotal": 57, "recordsFiltered": 57, 'data':dict_data}
+    #TODO recordsFiltered processing
+    return {"recordsTotal": post_list.count(), "recordsFiltered": post_list.count(), 'data':dict_data}
+
 
 
 

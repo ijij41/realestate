@@ -3,10 +3,13 @@
 
 {% block head-css %}
     <!-- DataTables CSS -->
-{#    <link href="/static/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">#}
+    {#    <link href="/static/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">#}
     <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <!-- DataTables Responsive CSS -->
     <link href="/static/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+
+
 
 {% endblock %}
 
@@ -118,43 +121,50 @@
         function ajax_search() {
 
 
-
-            if ( $.fn.dataTable.isDataTable( '#dataTables-example' ) ) {
+            if ($.fn.dataTable.isDataTable('#dataTables-example')) {
                 var table = $('#dataTables-example').DataTable();
                 table.clear();
                 table.draw();
             }
 
+            {#            var formData = $("#search_from").serialize();#}
+{#            http://wiseyoun07.blog.me/220659439860#}
+{#            http://blog.naver.com/protosi/220155288418#}
+{#            https://github.com/marioizquierdo/jquery.serializeJSON#}
+{#            https://stackoverflow.com/questions/5603117/jquery-create-object-from-form-fields#}
 
-            var formData = $("#search_from").serialize();
+            var formData = $("#search_from").serializeJSON();
+            console.log(formData);
+{#            https://stackoverflow.com/questions/30975859/how-to-send-current-page-number-in-ajax-request#}
 
-            var formData1 = "title=ajax call";
+
             var dataTable = $('#dataTables-example').DataTable({
-{#                dom: "Bfrtip",#}
-{#                "columnDefs": [#}
-{#                    {#}
-{#                        "targets": [0],#}
-{#                        "visible": false,#}
-{#                        "searchable": false#}
-{#                    },#}
-{#                    {#}
-{#                        "targets": [3],#}
-{#                        "visible": false#}
-{#                    }#}
-{#                ],#}
+                {#                dom: "Bfrtip",#}
+                {#                "columnDefs": [#}
+                {#                    {#}
+                {#                        "targets": [0],#}
+                {#                        "visible": false,#}
+                {#                        "searchable": false#}
+                {#                    },#}
+                {#                    {#}
+                {#                        "targets": [3],#}
+                {#                        "visible": false#}
+                {#                    }#}
+                {#                ],#}
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
                     "url": "../ajax/get_search/" + 1 + "/",
                     "type": 'POST',
-                    "data": {"userid":452},
-{#                    datatype:'json',#}
-{#                    dataType:'json',#}
-{#                    contentType: "application/json",#}
-{#                    contentType: "application/x-www-form-urlencoded",#}
-{#                    error: function (request, status, error) {#}
-{#                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);#}
-{#                    }#}
+                    {#                    "data": {"userid":452,"test_parameter":'xx'},  //possible values#}
+                    "data": formData,  //possible values
+{#                    "datatype": 'json',#}
+                    {#                    dataType:'json',#}
+                    {#                    contentType: "application/json",#}
+                    {#                    contentType: "application/x-www-form-urlencoded",#}
+                    {#                    error: function (request, status, error) {#}
+                    {#                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);#}
+                    {#                    }#}
 
                 },
                 "columns": [
@@ -190,13 +200,13 @@
                 method: "post",
                 url: "../ajax/get_search/" + page_num + "/",
                 data: formData,
-                datatype:'json',
+                datatype: 'json',
                 success: function (data) {
                     alert("success");
-{#                    obj = $.parseJSON(data.return_data);#}
-{#                    alert(data.return_data);#}
-{#                    alert(obj);#}
-{#                    console.log(obj);#}
+                    {#                    obj = $.parseJSON(data.return_data);#}
+                    {#                    alert(data.return_data);#}
+                    {#                    alert(obj);#}
+                    {#                    console.log(obj);#}
 
                 },
                 error: function (request, status, error) {
@@ -242,15 +252,16 @@
             <div class="panel-heading">
                 <label>검색조건</label>
                 <div class="panel-body">
-{#                    <form id='search_from' action="{% url 'realestate:search' %}?page=1" method="post"#}
+                    {#                    <form id='search_from' action="{% url 'realestate:search' %}?page=1" method="post"#}
                     <form id='search_from' action="{% url 'realestate:search' %}" method="post"#}
                           name="search_form">{% csrf_token %}
                         <!--div class="col-lg-5"-->
+                        <input type="hidden" name="test_parameter" value="22">
                         <div class="form-group">
                             {{ form.as_table }}
                         </div>
                         {#                        <button type="button" class="btn btn-primary" onclick="search_form.submit();">조회</button>#}
-{#                        <button type="button" class="btn btn-primary" onclick="javascript:move_page(2);">조회</button>#}
+                        {#                        <button type="button" class="btn btn-primary" onclick="javascript:move_page(2);">조회</button>#}
                         <button type="button" class="btn btn-primary" onclick="javascript:ajax_search();">조회</button>
                         <!--/div-->
                         <!--a href="javascript:login.submit();" class="btn btn-lg btn-success btn-block">Login</a>
@@ -299,9 +310,9 @@
 {% block bottom-custom-js %}
 
     <!-- DataTables JavaScript -->
-{#    <script src="/static/vendor/datatables/js/jquery.dataTables.min.js"></script>#}
+    {#    <script src="/static/vendor/datatables/js/jquery.dataTables.min.js"></script>#}
     <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-{#    <script src="/static/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>#}
+    {#    <script src="/static/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>#}
     <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
 
     <script src="/static/vendor/datatables-responsive/dataTables.responsive.js"></script>

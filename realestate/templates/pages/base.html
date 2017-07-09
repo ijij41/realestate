@@ -35,6 +35,10 @@
     <![endif]-->
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+
+
+
+
     <script src="/static/js/search.js"></script>
 
 
@@ -940,17 +944,19 @@
     <!-- /#wrapper -->
 
     {% block bottom-js %}
-    <!-- jQuery -->
-    <script src="/static/vendor/jquery/jquery.min.js"></script>
+        <!-- jQuery -->
+        <script src="/static/vendor/jquery/jquery.min.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/static/vendor/jquery/jquery.serializejson.js"></script>
 
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="/static/vendor/metisMenu/metisMenu.min.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-    <!-- Custom Theme JavaScript -->
-    <script src="/static/dist/js/sb-admin-2.js"></script>
+        <!-- Metis Menu Plugin JavaScript -->
+        <script src="/static/vendor/metisMenu/metisMenu.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="/static/dist/js/sb-admin-2.js"></script>
 
     {% endblock %}
 
