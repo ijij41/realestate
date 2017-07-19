@@ -83,21 +83,58 @@ def get_search_result(request, page_num):
     ########################################
 
 
+    house_type = request.POST['house_type']
+    deal_type = request.POST['deal_type']
+
+    si_code = request.POST['si_code']
+    gu_code = request.POST['gu_code']
+    dong_code = request.POST['dong_code']
+
 
     start_year = int(request.POST['start_year'])
     start_quarter = int(request.POST['start_quarter'])
     end_year = int(request.POST['end_year'])
     end_quarter = int(request.POST['end_quarter'])
 
+
+
     # https: // datatables.net / manual / server - side  # Sent-parameters
+    # for pagination
     table_data_para_start = int(request.POST['start'])
-    table_data_para_length=int(request.POST['length'])
+    table_data_para_length = int(request.POST['length'])
     cur_page = table_data_para_start/table_data_para_length + 1
 
     # 1 1  2 4  3 7  4 10
     # year_range = [start_year, end_year],
     # https: // stackoverflow.com / questions / 4668619 / django - database - query - how - to - filter - objects - by - date - range
+    # post_list = Deal.objects.all().filter(house_type=house_type, deal_type=deal_type,
+    #                                       # si_code = si_code, gu_code=gu_code, dong_code=dong_code,
+    #                                       deal_date__gte=datetime.date(start_year, (start_quarter*3)-2, 1),deal_date__lte=datetime.date(end_year, (end_quarter*3)-1, 1))
+
+
     post_list = Deal.objects.all().filter(deal_date__gte=datetime.date(start_year, (start_quarter*3)-2, 1),deal_date__lte=datetime.date(end_year, (end_quarter*3)-1, 1))
+
+    if(not house_type=='0'):
+        post_list = post_list.filter(housetype=house_type)
+    if(not deal_type=='0'):
+        post_list = post_list.filter(dealtype=deal_type)
+    if(not si_code=='0'):
+        post_list = post_list.filter(sidocode=si_code)
+    if (not gu_code == '0'):
+        post_list = post_list.filter(guguncode=gu_code)
+    if (not dong_code == '0'):
+        post_list = post_list.filter(dongcode=dong_code)
+
+
+    print post_list
+    # print "-----------------"
+    # print house_type
+    # print deal_type
+    # print si_code
+    # print gu_code
+    # print dong_code
+    # print "-----------------"
+
     # num_content_per_page = 10
     num_content_per_page = table_data_para_length
     paginator = Paginator(post_list, num_content_per_page)
@@ -153,7 +190,6 @@ def get_search_result(request, page_num):
     dict_data = json.loads(data)
     #TODO recordsFiltered processing
     return {"recordsTotal": post_list.count(), "recordsFiltered": post_list.count(), 'data':dict_data}
-
 
 
 

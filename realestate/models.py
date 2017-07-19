@@ -75,7 +75,7 @@ class Deal(models.Model):
 
     @property
     def get_housetype(self):
-        housetypeDict = {'A': '아파트', 'B': '빌라', 'C': '단독/주택', 'E': '오피스텔', 'F': '분양권', 'G': '토지'}
+        housetypeDict = {'A': '아파트', 'B': '빌라/다세대', 'C': '단독/주택', 'E': '오피스텔', 'F': '분양권', 'G': '토지'}
         return housetypeDict[self.housetype]
 
     @property

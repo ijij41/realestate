@@ -27,13 +27,18 @@ deal_quarter = [x for x in range(1, 5, 1)]
 deal_build_dict = {'A': 'APT', 'B': 'VILLA', 'C': 'HOUSE', 'E': 'OFFICETEL', 'F': 'DEAL_RIGHT', 'G': 'LAND'}
 deal_build = deal_build_dict.keys()
 
-deal_types = ['1', '2']  # houseType: 'DEAL','RENT'
-deal_year = [2016]
+# end of 2016, 2015, 2014
+#doing 2013
+deal_year = [2013]
 deal_quarter = [1, 2, 3, 4]
-deal_quarter = [3, 4]
 # # deal_build = ['A','B','C','E','F','G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
 deal_build = ['A', 'B', 'C', 'E', 'F', 'G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
+#deal_build = ['E', 'F', 'G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
 #deal_build = ['E']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
+deal_types = ['1', '2']  # houseType: 'DEAL','RENT'
+
+
+
 
 
 def run():
@@ -54,7 +59,7 @@ def run():
 
                     for addr_idx, address in enumerate(address_list):
                         if (addr_idx + 1) % 50 == 0:
-                            time.sleep(60)
+                            time.sleep(60*3)
 
                         # print addr_idx, address.dong_code, address.si_name, address.gu_name, address.dong_name, build_type, deal_type, year, quarter
 
@@ -70,15 +75,21 @@ def run():
                         # print "url:", url
                         success_access_web = False
                         for i in range(0, 5):
-                            dict_return = access_web.access_web_retrun_dict(url)
-                            if 'jsonList' in dict_return.keys() and (not dict_return['jsonList'] is None):
-                                success_access_web = True
-                                break
+                            try:
+                                dict_return = access_web.access_web_retrun_dict(url)
+                                if 'jsonList' in dict_return.keys() and (not dict_return['jsonList'] is None):
+                                    success_access_web = True
+                                    break
+
+                            except OperationalError as oe:
+                                print oe
+                            except Exception as e:
+                                print e
 
                             print "try count:", i, "   ", dict_return
                             t2 = time.time()
                             print t2 - t1
-                            time.sleep(60 * 10)
+                            time.sleep(60 * 10)   #end of for
 
                         if not success_access_web:
                             print dict_return

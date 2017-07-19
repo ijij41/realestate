@@ -36,7 +36,7 @@
 
 
             //// initialize ////////////////////////////////////////////////////////////////////////////////////////////////////
-            $("#{{ form.si_code.auto_id }}").val(11);   //서울특별시
+{#            $("#{{ form.si_code.auto_id }}").val(11);   //서울특별시#}
 
             before_year = current_year() - 1;
             if (before_year < 2006) {
@@ -57,7 +57,9 @@
                 $.ajax({
                     url: "../ajax/get_address_do/gu/" + $("#{{ form.si_code.auto_id }} option:selected").val(),
                     success: function (data) {
+{#                        console.log("change si_code action")#}
                         loadCombo($("#{{ form.gu_code.auto_id }}"), data.data);
+                        $("#{{ form.gu_code.auto_id }}").prepend(new Option('구/군 선택',0)).val(0)
 
                     },
                     error: function (request, status, error) {
@@ -67,13 +69,14 @@
 
             });
 
+{#           ajax loading https://stackoverflow.com/questions/4684722/show-loading-image-while-ajax-is-performed#}
 
             $("#{{ form.gu_code.auto_id }}").change(function () {  //call this function. when gu code combi is changed
                 $.ajax({
                     url: "../ajax/get_address_do/dong/" + $("#{{ form.gu_code.auto_id }} option:selected").val(),
                     success: function (data) {
                         loadCombo($("#{{ form.dong_code.auto_id }}"), data.data);
-
+                        $("#{{ form.dong_code.auto_id }}").prepend(new Option('동 선택',0)).val(0)
                     },
                     error: function (request, status, error) {
                         alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -168,9 +171,21 @@
 
                 },
                 "columns": [
-                    {data: "fields.housetype"},
+                    {
+                        data: "fields.housetype",
+                        render: function (data, type, row){
+                            var housetypeDict = {'A': '아파트', 'B': '빌라/다세대', 'C': '단독/주택', 'E': '오피스텔', 'F': '분양권', 'G': '토지'};
+                            return housetypeDict[data];
+                        }
+                    },
+                    {
+                        data: "fields.dealtype",
+                        render: function (data, type, row){
+                             var dealtypeDict = {'1': '매매','2':'전/월세'};
+                             return dealtypeDict[data];
+                        }
+                    },
                     {data: "fields.deal_date"},
-                    {data: "fields.dealtype"},
                     {data: "fields.address"},
                     {data: "fields.bldg_area"},
                     {data: "fields.aptfno"},
@@ -180,10 +195,18 @@
                     {data: "fields.rent_amt"},
                 ],
                 "destroy": true,
+{#                "initComplete", function(){#}
+{#                    $('#dataTables-example_filter input').unbind();#}
+{#                    $('#dataTables-example_filter input').bind('keyup',function(e){#}
+{#                        if(e.keyCode==13){#}
+{#                            dataTable.fnFilter(this.value);#}
+{#                        }#}
+{#                    });#}
+{#                },#}
 
             });
-
-
+{#housetypeDict = {'A': '아파트', 'B': '빌라', 'C': '단독/주택', 'E': '오피스텔', 'F': '분양권', 'G': '토지'}#}
+{#APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND#}
             $('#dataTables-example tbody').on('click', 'tr', function () {
                 var row_data = dataTable.row(this).data();
                 console.log(row_data);
@@ -280,7 +303,7 @@
                     <thead>
                     <tr>
                         <th>주택유형</th>
-                        <th>거래타입</th>
+                        <th>거래유형</th>
                         <th>거래시기</th>
                         <th>주소</th>
                         <th>면적</th>
