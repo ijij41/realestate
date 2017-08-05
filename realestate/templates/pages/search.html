@@ -174,22 +174,20 @@
 
                 },
                 "columns": [
-{#                    {#}
-{#                        data: "fields.housetype",#}
-{#                        render: function (data, type, row){#}
-{#                            var housetypeDict = {'A': '아파트', 'B': '빌라/다세대', 'C': '단독/주택', 'E': '오피스텔', 'F': '분양권', 'G': '토지'};#}
-{#                            return housetypeDict[data];#}
-{#                        }#}
-{#                    },#}
-{#                    {#}
-{#                        data: "fields.dealtype",#}
-{#                        render: function (data, type, row){#}
-{#                             var dealtypeDict = {'1': '매매','2':'전/월세'};#}
-{#                             return dealtypeDict[data];#}
-{#                        }#}
-{#                    },#}
-                    {data: "fields.housetype"},
-                    {data: "fields.dealtype"},
+                    {
+                        data: "fields.housetype",
+                        render: function (data, type, row){
+                            var housetypeDict = {'A': '아파트', 'B': '빌라/다세대', 'C': '단독/주택', 'E': '오피스텔', 'F': '분양권', 'G': '토지'};
+                            return housetypeDict[data];
+                        }
+                    },
+                    {
+                        data: "fields.dealtype",
+                        render: function (data, type, row){
+                             var dealtypeDict = {'1': '매매','2':'전/월세'};
+                             return dealtypeDict[data];
+                        }
+                    },
 
                     {data: "fields.deal_date"},
                     {data: "fields.address"},
