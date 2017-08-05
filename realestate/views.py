@@ -126,7 +126,7 @@ def get_search_result(request, page_num):
         post_list = post_list.filter(dongcode=dong_code)
 
 
-    print post_list
+    # print 'get:', post_list
     # print "-----------------"
     # print house_type
     # print deal_type

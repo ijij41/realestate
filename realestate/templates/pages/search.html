@@ -124,10 +124,12 @@
         function ajax_search() {
 
 
+
             if ($.fn.dataTable.isDataTable('#dataTables-example')) {
                 var table = $('#dataTables-example').DataTable();
-                table.clear();
-                table.draw();
+                table.destroy();
+{#                table.clear();#}
+{#                table.draw();#}
             }
 
             {#            var formData = $("#search_from").serialize();#}
@@ -154,6 +156,7 @@
                 {#                        "visible": false#}
                 {#                    }#}
                 {#                ],#}
+                "retrieve": true,
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
@@ -171,20 +174,23 @@
 
                 },
                 "columns": [
-                    {
-                        data: "fields.housetype",
-                        render: function (data, type, row){
-                            var housetypeDict = {'A': '아파트', 'B': '빌라/다세대', 'C': '단독/주택', 'E': '오피스텔', 'F': '분양권', 'G': '토지'};
-                            return housetypeDict[data];
-                        }
-                    },
-                    {
-                        data: "fields.dealtype",
-                        render: function (data, type, row){
-                             var dealtypeDict = {'1': '매매','2':'전/월세'};
-                             return dealtypeDict[data];
-                        }
-                    },
+{#                    {#}
+{#                        data: "fields.housetype",#}
+{#                        render: function (data, type, row){#}
+{#                            var housetypeDict = {'A': '아파트', 'B': '빌라/다세대', 'C': '단독/주택', 'E': '오피스텔', 'F': '분양권', 'G': '토지'};#}
+{#                            return housetypeDict[data];#}
+{#                        }#}
+{#                    },#}
+{#                    {#}
+{#                        data: "fields.dealtype",#}
+{#                        render: function (data, type, row){#}
+{#                             var dealtypeDict = {'1': '매매','2':'전/월세'};#}
+{#                             return dealtypeDict[data];#}
+{#                        }#}
+{#                    },#}
+                    {data: "fields.housetype"},
+                    {data: "fields.dealtype"},
+
                     {data: "fields.deal_date"},
                     {data: "fields.address"},
                     {data: "fields.bldg_area"},
@@ -194,7 +200,7 @@
                     {data: "fields.sum_amt"},
                     {data: "fields.rent_amt"},
                 ],
-                "destroy": true,
+{#                "destroy": true,#}
 {#                "initComplete", function(){#}
 {#                    $('#dataTables-example_filter input').unbind();#}
 {#                    $('#dataTables-example_filter input').bind('keyup',function(e){#}
