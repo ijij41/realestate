@@ -73,7 +73,7 @@ class Deal(models.Model):
     # object  = DealManager()
 
 
-    @property
+    @property   #this is used at template, and view
     def get_housetype(self):
         housetypeDict = {'A': '아파트', 'B': '빌라/다세대', 'C': '단독/주택', 'E': '오피스텔', 'F': '분양권', 'G': '토지'}
         return housetypeDict[self.housetype]
@@ -83,7 +83,9 @@ class Deal(models.Model):
         dealtypeDict = {'1': '매매','2':'임대'}   #refer to crawlling dealdate.py in crawling directory
         return dealtypeDict[self.dealtype]
 
-
+    @property
+    def get_address(self):
+        return self.address.si_name + ", "+ self.address.gu_name + ", "+ self.address.dong_name + ", " + str(self.bobn) + " , " + str(self.bubn if not self.bubn==None else "")
 
 
     def __unicode__(self):

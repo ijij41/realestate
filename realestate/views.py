@@ -50,19 +50,18 @@ def get_address_do(request, query_id, query_key):
 
 
 @csrf_exempt
-def get_search(request, page_num):
-    result_as_json = get_search_result(request,page_num)
+# def get_search(request, page_num):
+def get_search(request):
+    result_as_json = get_search_result(request)
     return JsonResponse(result_as_json) #in case of coverting query set to json
-
-
 
 
 ########################################################################
 
 #private function
 
-
-def get_search_result(request, page_num):
+# def get_search_result(request, page_num):
+def get_search_result(request):
 
     ########## for debug ##################
     # print request.is_ajax()
@@ -114,26 +113,39 @@ def get_search_result(request, page_num):
 
     post_list = Deal.objects.all().filter(deal_date__gte=datetime.date(start_year, (start_quarter*3)-2, 1),deal_date__lte=datetime.date(end_year, (end_quarter*3)-1, 1))
 
+
+
+    print "original entry count:", len(post_list)
     if(not house_type=='0'):
         post_list = post_list.filter(housetype=house_type)
+        print "select house_type:", house_type, len(post_list)
     if(not deal_type=='0'):
         post_list = post_list.filter(dealtype=deal_type)
+        print "select deal_type:", deal_type
     if(not si_code=='0'):
         post_list = post_list.filter(sidocode=si_code)
+        print "select si_code:", si_code
     if (not gu_code == '0'):
         post_list = post_list.filter(guguncode=gu_code)
+        print "select gu_code:", gu_code
     if (not dong_code == '0'):
         post_list = post_list.filter(dongcode=dong_code)
+        print "select dong_code:", dong_code
+
 
 
     # print 'get:', post_list
-    # print "-----------------"
-    # print house_type
-    # print deal_type
-    # print si_code
-    # print gu_code
-    # print dong_code
-    # print "-----------------"
+    print "-----------------"
+    print type(house_type),house_type
+    print type(deal_type), deal_type
+    print type(si_code),si_code
+    print type(gu_code), gu_code
+    print type(dong_code), dong_code
+    print "-----------------"
+
+    print "test1:", post_list[0].address.si_code
+    print "test2:", post_list[0].address.si_name
+
 
     # num_content_per_page = 10
     num_content_per_page = table_data_para_length
@@ -188,6 +200,11 @@ def get_search_result(request, page_num):
     # according to page request, send data  (e.g., 2 page reuqest, send page 2 data
     data = serializers.serialize("json", contacts.object_list)
     dict_data = json.loads(data)
+
+    #update from forienkey
+    for de, pl in zip(dict_data, post_list):
+        de['fields']['address'] = pl.get_address
+
     #TODO recordsFiltered processing
     return {"recordsTotal": post_list.count(), "recordsFiltered": post_list.count(), 'data':dict_data}
 

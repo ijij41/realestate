@@ -123,8 +123,6 @@
 
         function ajax_search() {
 
-
-
             if ($.fn.dataTable.isDataTable('#dataTables-example')) {
                 var table = $('#dataTables-example').DataTable();
                 table.destroy();
@@ -160,7 +158,8 @@
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
-                    "url": "../ajax/get_search/" + 1 + "/",
+{#                    "url": "../ajax/get_search/" + 1 + "/",#}
+                    "url": "../ajax/get_search/",
                     "type": 'POST',
                     {#                    "data": {"userid":452,"test_parameter":'xx'},  //possible values#}
                     "data": formData,  //possible values
@@ -218,7 +217,7 @@
             });
         }
 
-
+        /**
         function move_page(page_num) {
 
             var formData = $("#search_from").serialize();
@@ -240,7 +239,8 @@
                     alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                 }
             });
-        }
+        }**/
+
 
 
         /**
