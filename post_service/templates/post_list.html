@@ -10,7 +10,8 @@
 {#{{  user.is_authenticated }}#}
 {#{{  user }}#}
 {#{{  request.user }}#}
-    <a href={% url 'user_manager:login' %}>로그인</a>
+{#    <a href={% url 'user_manager:login' %}>로그인</a>#}
+    <a href={% url 'realestate:login' %}>로그인</a>
 </body>
 {#{% else %}#}
 <body>

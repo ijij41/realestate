@@ -42,10 +42,14 @@ urlpatterns = [
     # LOGIN_REDIRECT_URL = '/realestate/main/'
     # templates/registration/login.html
     # templates/registration/register.html
+
+
+    #FYI in user_manager, currently, here is real
     url(r'^login/$', login, name="login"),
     # url(r'^login/$', django.contrib.auth.views.login, {'template_name': 'login_form.html'},name='login'),  #reference
     url(r'^logout/$', logout, {'next_page': 'realestate/login', }, name='logout'),
     url(r'^password_change/$', password_change, {'post_change_redirect':'realestate:search'}, name='password_change'),
+
     # url(r'^password_change_done/$', password_change_done, name='password_change_done'),
 
     url(r'^register/$', UserCreateView.as_view() , name='register'),

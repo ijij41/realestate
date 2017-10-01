@@ -68,7 +68,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    # 'realestate.middleware.LoginRequiredMiddleware',
+    'realestate.middleware.LoginRequiredMiddleware',
 ]
 
 

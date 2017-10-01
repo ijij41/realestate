@@ -111,26 +111,35 @@ def get_search_result(request):
     #                                       deal_date__gte=datetime.date(start_year, (start_quarter*3)-2, 1),deal_date__lte=datetime.date(end_year, (end_quarter*3)-1, 1))
 
 
-    post_list = Deal.objects.all().filter(deal_date__gte=datetime.date(start_year, (start_quarter*3)-2, 1),deal_date__lte=datetime.date(end_year, (end_quarter*3)-1, 1))
+    # post_list = Deal.objects.all().filter(deal_date__gte=datetime.date(start_year, (start_quarter*3)-2, 1),deal_date__lte=datetime.date(end_year, (end_quarter*3)-1, 1))
+    print start_quarter
+    print end_quarter
 
+    print "start date:" ,datetime.date(start_year, (start_quarter * 3) - 2, 1)
+    print "end date:" ,datetime.date(end_year, ((end_quarter+1) * 3) - 2, 1)
 
+    post_list = Deal.objects.filter(deal_date__gte=datetime.date(start_year, (start_quarter * 3) - 2, 1), deal_date__lt=datetime.date(end_year, ((end_quarter+1) * 3) - 2, 1), dealtype=2 )
 
+    # print Deal.objects.filter(year=2016, period=1, dealtype=2).query
+    # post_list = Deal.objects.filter(year=2016,period=1,dealtype=2)
+
+    #
     print "original entry count:", len(post_list)
-    if(not house_type=='0'):
-        post_list = post_list.filter(housetype=house_type)
-        print "select house_type:", house_type, len(post_list)
-    if(not deal_type=='0'):
-        post_list = post_list.filter(dealtype=deal_type)
-        print "select deal_type:", deal_type
-    if(not si_code=='0'):
-        post_list = post_list.filter(sidocode=si_code)
-        print "select si_code:", si_code
-    if (not gu_code == '0'):
-        post_list = post_list.filter(guguncode=gu_code)
-        print "select gu_code:", gu_code
-    if (not dong_code == '0'):
-        post_list = post_list.filter(dongcode=dong_code)
-        print "select dong_code:", dong_code
+    # if(not house_type=='0'):
+    #     post_list = post_list.filter(housetype=house_type)
+    #     print "select house_type:", house_type, len(post_list)
+    # if(not deal_type=='0'):
+    #     post_list = post_list.filter(dealtype=deal_type)
+    #     print "select deal_type:", deal_type
+    # if(not si_code=='0'):
+    #     post_list = post_list.filter(sidocode=si_code)
+    #     print "select si_code:", si_code
+    # if (not gu_code == '0'):
+    #     post_list = post_list.filter(guguncode=gu_code)
+    #     print "select gu_code:", gu_code
+    # if (not dong_code == '0'):
+    #     post_list = post_list.filter(dongcode=dong_code)
+    #     print "select dong_code:", dong_code
 
 
 
@@ -143,8 +152,8 @@ def get_search_result(request):
     print type(dong_code), dong_code
     print "-----------------"
 
-    print "test1:", post_list[0].address.si_code
-    print "test2:", post_list[0].address.si_name
+    # print "test1:", post_list[0].address.si_code
+    # print "test2:", post_list[0].address.si_name
 
 
     # num_content_per_page = 10

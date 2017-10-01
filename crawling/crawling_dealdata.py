@@ -27,9 +27,9 @@ deal_quarter = [x for x in range(1, 5, 1)]
 deal_build_dict = {'A': 'APT', 'B': 'VILLA', 'C': 'HOUSE', 'E': 'OFFICETEL', 'F': 'DEAL_RIGHT', 'G': 'LAND'}
 deal_build = deal_build_dict.keys()
 
-# end of 2016, 2015, 2014
-#doing 2013
-deal_year = [2013]
+# end of 2016, 2015, 2014, 2013, 2012, 2011
+#doing 2010
+deal_year = [2011]
 deal_quarter = [1, 2, 3, 4]
 # # deal_build = ['A','B','C','E','F','G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
 deal_build = ['A', 'B', 'C', 'E', 'F', 'G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
