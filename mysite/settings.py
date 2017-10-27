@@ -29,7 +29,7 @@ SECRET_KEY = '6dauc_#35$502m5ms4wod_7ts!rcn52w7=d%amv_i9!p)&a!dv'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['13.124.243.206','localhost','127.0.0.1']
 
 # Application definition
 
@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 'startpolls',
     'realestate',
-    'wedding',
     'post_service',
     'user_manager',
     # 'rest_framework',
@@ -107,11 +106,14 @@ DATABASES = {
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
         #http://54.224.103.57/phpmyadmin/
+        #http://13.124.243.206/phpmyadmin/
         #'NAME': 'kunta',
-        'NAME': 'kunta_2',
+        # 'NAME': 'kunta_2',
+        'NAME': 'kunta_3',
         'USER': 'root',
         'PASSWORD': 'dlwjdgns',
-        'HOST': '54.224.103.57',
+        # 'HOST': '54.224.103.57',
+        'HOST': '13.124.243.206',
         'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES', innodb_strict_mode=1",

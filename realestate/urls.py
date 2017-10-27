@@ -59,12 +59,14 @@ urlpatterns = [
 
 
     url(r'^search/$', SearchFormView.as_view(), name="search"),
+    url(r'^ajax/get_search/$', views.get_search, name='get_search'),
+
     url(r'^lv/page(?P<page>[0-9]+)/$', LV.as_view(), name="search_page"),
     #http://stackoverflow.com/questions/16931901/django-combine-detailview-and-formview
 
     url(r'^ajax/get_address_do/(?P<query_id>\w+)/(?P<query_key>\d+)/$', views.get_address_do, name='get_address_do'),  #query id : type of query (si, gu, dont),   query_key: keyworld (codes)
     # url(r'^ajax/get_search/(?P<page_num>[0-9]+)/$', views.get_search, name='get_search'),
-    url(r'^ajax/get_search/$', views.get_search, name='get_search'),
+
 
     # login test  #http://www.slideshare.net/DustinJunginSeoul/qna-blog-using-django-orm
     # url(r'^signup/$', views.signup, name='signup'),

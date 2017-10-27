@@ -25,8 +25,8 @@ class RegisterForm(UserCreationForm):
     # confirm password field
     password2 = forms.CharField(label="Repeat Your Password", widget=forms.PasswordInput())
     email = forms.EmailField(label="Email Address")
-    first_name = forms.CharField(label="First Name")
-    last_name = forms.CharField(label="Last Name")
+    first_name = forms.CharField(label="First Name-")
+    last_name = forms.CharField(label="Last Name-")
 
 
     # this sets the order of the fields
