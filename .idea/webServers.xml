@@ -10,6 +10,14 @@
           <option name="port" value="22" />
         </fileTransfer>
       </webServer>
+      <webServer id="90e3e92e-a827-497d-9edf-2050f701372e" name="second realestate server" url="http://13.124.243.206">
+        <fileTransfer host="13.124.243.206" port="22" rootFolder="/home/ijij41" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

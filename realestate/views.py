@@ -116,10 +116,10 @@ def get_search_result(request):
     print end_quarter
 
     print "start date:" ,datetime.date(start_year, (start_quarter * 3) - 2, 1)
-    if((((end_quarter + 1) * 3) - 2 )  >12 ):
+    if((((end_quarter + 1) * 3) - 2 )  > 12 ):
         end_time = datetime.date(end_year+1, 1, 1)
     else:
-        end_time =datetime.date(end_year, ((end_quarter + 1) * 3) - 2, 1)
+        end_time = datetime.date(end_year, ((end_quarter + 1) * 3) - 2, 1)
     print "end date:", end_time
 
     post_list = Deal.objects.filter(deal_date__gte=datetime.date(start_year, (start_quarter * 3) - 2, 1), deal_date__lt=end_time)
