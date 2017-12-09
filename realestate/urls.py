@@ -59,8 +59,9 @@ urlpatterns = [
 
 
     url(r'^search/$', SearchFormView.as_view(), name="search"),
-    url(r'^ajax/get_search/$', views.get_search, name='get_search'),
 
+
+    url(r'^ajax/get_search/$', views.get_search, name='get_search'),
     url(r'^lv/page(?P<page>[0-9]+)/$', LV.as_view(), name="search_page"),
     #http://stackoverflow.com/questions/16931901/django-combine-detailview-and-formview
 

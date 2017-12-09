@@ -50,8 +50,7 @@ def get_address_do(request, query_id, query_key):
 
 
 @csrf_exempt
-# def get_search(request, page_num):
-def get_search(request):
+def get_search(request):   ## main function for search
     result_as_json = get_search_result(request)
     return JsonResponse(result_as_json) #in case of coverting query set to json
 
@@ -115,20 +114,20 @@ def get_search_result(request):
     print start_quarter
     print end_quarter
 
-    print "start date:" ,datetime.date(start_year, (start_quarter * 3) - 2, 1)
+    # print "start date:" ,datetime.date(start_year, (start_quarter * 3) - 2, 1)
     if((((end_quarter + 1) * 3) - 2 )  > 12 ):
         end_time = datetime.date(end_year+1, 1, 1)
     else:
         end_time = datetime.date(end_year, ((end_quarter + 1) * 3) - 2, 1)
     print "end date:", end_time
 
-    post_list = Deal.objects.filter(deal_date__gte=datetime.date(start_year, (start_quarter * 3) - 2, 1), deal_date__lt=end_time)
-
+    post_list = Deal.objects.filter(deal_date__gte=datetime.date(start_year, (start_quarter * 3) - 2, 1), deal_date__lt=end_time, ).order_by('deal_date')
+    print post_list.query
     #test
     # print Deal.objects.filter(year=2016, period=1, dealtype=2).query
     # post_list = Deal.objects.filter(year=2016,period=1,dealtype=2)
 
-    #
+
     print "original entry count:", len(post_list)
     if(not house_type=='0'):
         post_list = post_list.filter(housetype=house_type)
@@ -161,7 +160,6 @@ def get_search_result(request):
     print "filtered entry count:", len(post_list)
     # print "test1:", post_list[0].address.si_code
     # print "test2:", post_list[0].address.si_name
-
 
     # num_content_per_page = 10
     num_content_per_page = table_data_para_length

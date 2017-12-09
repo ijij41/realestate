@@ -138,39 +138,19 @@
 
             var formData = $("#search_from").serializeJSON();
             console.log(formData);
+{#            form data for search #}
 {#            https://stackoverflow.com/questions/30975859/how-to-send-current-page-number-in-ajax-request#}
 
 
             var dataTable = $('#dataTables-example').DataTable({
-                {#                dom: "Bfrtip",#}
-                {#                "columnDefs": [#}
-                {#                    {#}
-                {#                        "targets": [0],#}
-                {#                        "visible": false,#}
-                {#                        "searchable": false#}
-                {#                    },#}
-                {#                    {#}
-                {#                        "targets": [3],#}
-                {#                        "visible": false#}
-                {#                    }#}
-                {#                ],#}
+
                 "retrieve": true,
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
-{#                    "url": "../ajax/get_search/" + 1 + "/",#}
                     "url": "../ajax/get_search/",
                     "type": 'POST',
-                    {#                    "data": {"userid":452,"test_parameter":'xx'},  //possible values#}
-                    "data": formData,  //possible values
-{#                    "datatype": 'json',#}
-                    {#                    dataType:'json',#}
-                    {#                    contentType: "application/json",#}
-                    {#                    contentType: "application/x-www-form-urlencoded",#}
-                    {#                    error: function (request, status, error) {#}
-                    {#                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);#}
-                    {#                    }#}
-
+                    "data": formData,  //possible values  {# "data": {"userid":452,"test_parameter":'xx'},  //possible values#}
                 },
                 "columns": [
                     {
@@ -197,19 +177,10 @@
                     {data: "fields.sum_amt"},
                     {data: "fields.rent_amt"},
                 ],
-{#                "destroy": true,#}
-{#                "initComplete", function(){#}
-{#                    $('#dataTables-example_filter input').unbind();#}
-{#                    $('#dataTables-example_filter input').bind('keyup',function(e){#}
-{#                        if(e.keyCode==13){#}
-{#                            dataTable.fnFilter(this.value);#}
-{#                        }#}
-{#                    });#}
-{#                },#}
 
             });
-{#housetypeDict = {'A': '아파트', 'B': '빌라', 'C': '단독/주택', 'E': '오피스텔', 'F': '분양권', 'G': '토지'}#}
-{#APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND#}
+
+{#  TODO          this is right function, but when pressing search button again, the problem happens, it should be resolved#}
             $('#dataTables-example tbody').on('click', 'tr', function () {
                 var row_data = dataTable.row(this).data();
                 console.log(row_data);
@@ -217,45 +188,6 @@
             });
         }
 
-        /**
-        function move_page(page_num) {
-
-            var formData = $("#search_from").serialize();
-
-            $.ajax({
-                method: "post",
-                url: "../ajax/get_search/" + page_num + "/",
-                data: formData,
-                datatype: 'json',
-                success: function (data) {
-                    alert("success");
-                    {#                    obj = $.parseJSON(data.return_data);#}
-                    {#                    alert(data.return_data);#}
-                    {#                    alert(obj);#}
-                    {#                    console.log(obj);#}
-
-                },
-                error: function (request, status, error) {
-                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                }
-            });
-        }**/
-
-
-
-        /**
-         function addOnData(data) {
-		//alert('in addon data');
-		//alert(data);
-		$(data).each( function() {
-			//alert('xxx');
-			var dongcode = this.fields.dongcode;
-			var bldg_nm = this.fields.bldg_nm;
-			//alert("aa"):
-			$("#result_from_search").append("<div>"+dongcode+" , "+bldg_nm+"</div>");
-		});
-	}
-         **/
 
     </script>
 
