@@ -123,11 +123,12 @@
 
         function ajax_search() {
 
+            var clear_flag = false;
             if ($.fn.dataTable.isDataTable('#dataTables-example')) {
                 var table = $('#dataTables-example').DataTable();
+                table.clear();
                 table.destroy();
-{#                table.clear();#}
-{#                table.draw();#}
+                clear_flag = true;
             }
 
             {#            var formData = $("#search_from").serialize();#}
@@ -142,8 +143,11 @@
 {#            https://stackoverflow.com/questions/30975859/how-to-send-current-page-number-in-ajax-request#}
 
 
-            var dataTable = $('#dataTables-example').DataTable({
+            var dataTable = $('#dataTables-example')
 
+            dataTable.DataTable({
+
+                "destroy":true,
                 "retrieve": true,
                 "processing": true,
                 "serverSide": true,
@@ -180,12 +184,19 @@
 
             });
 
-{#  TODO          this is right function, but when pressing search button again, the problem happens, it should be resolved#}
+
+
+
+
+            $('#dataTables-example tbody').unbind('click');   // without this codes, multiple event occurs
             $('#dataTables-example tbody').on('click', 'tr', function () {
-                var row_data = dataTable.row(this).data();
+                var table_tmp = $('#dataTables-example').DataTable();
+                var row_data = table_tmp.row(this).data();
                 console.log(row_data);
-                alert('You clicked -  on ' + row_data['pk'] + '\'s row');
+                alert('You clicked -  on ' + row_data['fields']['bldg_cd'] + '\'s row');
             });
+
+
         }
 
 
