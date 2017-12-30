@@ -59,6 +59,9 @@ urlpatterns = [
 
 
     url(r'^search/$', SearchFormView.as_view(), name="search"),
+# http://127.0.0.1:8000/realestate/detail/9079552
+    url(r'^detail/(?P<bldg_cd>\d+)/$', views.detail, name="detail"),
+
 
 
     url(r'^ajax/get_search/$', views.get_search, name='get_search'),

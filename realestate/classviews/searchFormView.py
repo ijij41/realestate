@@ -16,7 +16,7 @@ class SearchFormView(FormView):
     form_class = SearchForm
     template_name = 'pages/search.html'
 
-
+    # this function will not be called because submit button in template called javascript to call ajax
     def form_valid(self, form):   # this function is call when post requests incomming
 
         post_list = Deal.objects.all()

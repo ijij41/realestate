@@ -183,10 +183,15 @@
 {#  TODO          this is right function, but when pressing search button again, the problem happens, it should be resolved#}
             $('#dataTables-example tbody').on('click', 'tr', function () {
                 var row_data = dataTable.row(this).data();
-                console.log(row_data);
-                alert('You clicked -  on ' + row_data['pk'] + '\'s row');
+{#                console.log(row_data);#}
+{#                alert('You clicked -  on ' + row_data['fields']['bldg_cd'] + '\'s row');#}
+{#                var bldg_cd_num = Number(row_data['fields']['bldg_cd'])#}
+                console.log(row_data['fields']['bldg_cd'])
+                var bldg_cd_num = row_data['fields']['bldg_cd']
+{#                alert("{% url 'realestate:detail' 0 %}".replace('0',bldg_cd_num.toString()));#}
+                location.replace("{% url 'realestate:detail' 0 %}".replace('0',bldg_cd_num.toString()));
             });
-        }
+        }  {# end of ajax_search func #}
 
 
     </script>
