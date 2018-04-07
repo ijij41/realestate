@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-# Create your classviews here.
+# Create your viewclass here.
 from django.views.generic import TemplateView
 
 

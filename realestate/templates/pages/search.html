@@ -216,7 +216,7 @@
             <div class="panel-heading">
                 <label>검색조건</label>
                 <div class="panel-body">
-                    {#                    <form id='search_from' action="{% url 'realestate:search' %}?page=1" method="post"#}
+
                     <form id='search_from' action="{% url 'realestate:search' %}" method="post"#}
                           name="search_form">{% csrf_token %}
                         <!--div class="col-lg-5"-->
@@ -224,8 +224,6 @@
                         <div class="form-group">
                             {{ form.as_table }}
                         </div>
-                        {#                        <button type="button" class="btn btn-primary" onclick="search_form.submit();">조회</button>#}
-                        {#                        <button type="button" class="btn btn-primary" onclick="javascript:move_page(2);">조회</button>#}
                         <button type="button" class="btn btn-primary" onclick="javascript:ajax_search();">조회</button>
                         <!--/div-->
                         <!--a href="javascript:login.submit();" class="btn btn-lg btn-success btn-block">Login</a>

@@ -1,7 +1,6 @@
-import django
 from django.conf.urls import url
 
-from realestate.classviews.templateTestView import TemplateTestView
+from realestate.viewclass.view.templateTestView import TemplateTestView
 from user_manager import views
 
 urlpatterns = [

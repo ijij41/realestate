@@ -1,13 +1,12 @@
 # from django.shortcuts import render
 #
-# # Create your classviews here.
-# from django.classviews.generic import TemplateView
+# # Create your viewclass here.
+# from django.viewclass.generic import TemplateView
 #
 
 import json
 
 import datetime
-import time
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -61,6 +60,7 @@ def get_address_do(request, query_id, query_key):
 @csrf_exempt
 def get_search(request):   ## main function for search
     result_as_json = get_search_result(request)
+    print result_as_json
     return JsonResponse(result_as_json) #in case of coverting query set to json
 
 
