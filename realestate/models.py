@@ -88,6 +88,9 @@ class Deal(models.Model):
         return self.address.si_name + ", "+ self.address.gu_name + ", "+ self.address.dong_name + ", " + str(self.bobn) + " , " + str(self.bubn if not self.bubn==None else "")
 
 
+    def get_all_field(self):
+        return [f.name for f in self._meta.get_fields()]
+
     def __unicode__(self):
         return self.bldg_nm
 

@@ -1,13 +1,12 @@
 # from django.shortcuts import render
 #
-# # Create your classviews here.
-# from django.classviews.generic import TemplateView
+# # Create your viewclass here.
+# from django.viewclass.generic import TemplateView
 #
 
 import json
 
 import datetime
-import time
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -18,8 +17,7 @@ from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
-from django.views.generic import ListView
-
+from django.views.generic import ListView, DetailView
 
 from realestate.models import Deal, Address
 
@@ -31,12 +29,22 @@ def index(request):
     else:
         return HttpResponseRedirect(reverse("realestate:login"))
 
-
-
 class LV(ListView):
     model = Deal
     template_name = "pages/search.html"
     paginate_by = 3
+
+# class DV(DetailView):
+#     model = Deal;
+#     template_name = "pages/detail.html"
+
+
+
+def detail(request,bldg_cd):
+
+    deallist = Deal.objects.filter(bldg_cd=bldg_cd).order_by('deal_date');
+
+    return render(request, 'pages/detail.html', {'deal_list': deallist})
 
 
 
@@ -52,6 +60,7 @@ def get_address_do(request, query_id, query_key):
 @csrf_exempt
 def get_search(request):   ## main function for search
     result_as_json = get_search_result(request)
+    print result_as_json
     return JsonResponse(result_as_json) #in case of coverting query set to json
 
 
@@ -261,13 +270,6 @@ def get_address(query_id, query_key):
 
 #######################################################################
 def init_db_test(request):
-    # latest_question_list = Question.objects.all().order_by('-pub_date')[:5]
-    ##print "xxx", len(latest_question_list)
-    # context = {'latest_question_list': latest_question_list}
-    # return render(request,'polls/index.html', context)
-    # data_list = get_object_or_404(Test, dongcode='1168010300')
-    # jdata_list = Test.objects.filter(dongcode='1168010300').order_by(id).first()
-    # data_list = Test.objects.all().filter(dongcode='1168010300')[:5]
     data_list = Deal.objects.filter(dongcode=1168010300)[:7]
     print "data count: ", len(data_list)
     print "data count: ", data_list

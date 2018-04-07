@@ -4,7 +4,9 @@ $(document).ready(function() {
     var offset = 0;
     plot();
 
+
     function plot() {
+
         var sin = [],
             cos = [];
         for (var i = 0; i < 12; i += 0.2) {
