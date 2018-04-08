@@ -27,18 +27,26 @@ deal_quarter = [x for x in range(1, 5, 1)]
 deal_build_dict = {'A': 'APT', 'B': 'VILLA', 'C': 'HOUSE', 'E': 'OFFICETEL', 'F': 'DEAL_RIGHT', 'G': 'LAND'}
 deal_build = deal_build_dict.keys()
 
-# end of 2016, 2015, 2014, 2013, 2012, 2011
-#doing 2010
-deal_year = [2011]
-deal_quarter = [1, 2, 3, 4]
+# end of 2016, 2015, 2014, 2013, 2012, 2011, 2010
+#doing 2009
+deal_year = [2009]
+#deal_quarter = [1, 2, 3, 4]
+#deal_quarter = [1,2]
+deal_quarter = [3,4]
 # # deal_build = ['A','B','C','E','F','G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
 deal_build = ['A', 'B', 'C', 'E', 'F', 'G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
 #deal_build = ['E', 'F', 'G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
 #deal_build = ['E']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
 deal_types = ['1', '2']  # houseType: 'DEAL','RENT'
 
-
-
+#intermittent_sleep_time = 60*3
+# intermittent_sleep_time = 60*1
+intermittent_sleep_time = 5
+#web_access_retry_time = 60*10
+#db_save_retry_time = 60*10
+web_access_retry_time = 60*10
+db_save_retry_time = 60*10
+test=""
 
 
 def run():
@@ -58,8 +66,9 @@ def run():
                     # continue
 
                     for addr_idx, address in enumerate(address_list):
-                        if (addr_idx + 1) % 50 == 0:
-                            time.sleep(60*3)
+                        # if (addr_idx + 1) % 50 == 0:
+                        # if (addr_idx + 1) % 2 == 0:
+                        time.sleep(intermittent_sleep_time)
 
                         # print addr_idx, address.dong_code, address.si_name, address.gu_name, address.dong_name, build_type, deal_type, year, quarter
 
@@ -72,9 +81,9 @@ def run():
 
                         # dict_return = access_web.access_web_retrun_dict(url)
                         #
-                        # print "url:", url
+                        print "url:", url
                         success_access_web = False
-                        for i in range(0, 5):
+                        for i in range(0, 10):
                             try:
                                 dict_return = access_web.access_web_retrun_dict(url)
                                 if 'jsonList' in dict_return.keys() and (not dict_return['jsonList'] is None):
@@ -86,10 +95,10 @@ def run():
                             except Exception as e:
                                 print e
 
-                            print "try count:", i, "   ", dict_return
+                            print "re-try count due to some exception:", i, "   ", dict_return
                             t2 = time.time()
                             print t2 - t1
-                            time.sleep(60 * 10)   #end of for
+                            time.sleep(web_access_retry_time)   #end of for
 
                         if not success_access_web:
                             print dict_return
@@ -111,8 +120,8 @@ def run():
                         #     # print Deal._meta.fields[15]
                         #     # print type(Deal._meta.fields[15])
                         #     # db_column_name_list = [x.db_column for x in Deal._meta.fields][9:]
-
-                        bulk_list = []
+                        print "deal_list for db save:", len(deal_list), deal_list
+                        #bulk_list = []
                         for deal_item in deal_list:  # can be multiple rows
                             # per one row
                             d = Deal(housetype=build_type, dealtype=deal_type, year=year, period=quarter,
@@ -155,38 +164,42 @@ def run():
 
                             d.address_id = address.pk;
 
-                            bulk_list.append(d)
-                            # save_success = False
-                            # for try_idx in range(0, 3):
-                            #     try:
-                            #         d.save()
-                            #         save_success = True
-                            #         break
-                            #     except OperationalError as oe:
-                            #         print oe
-                            #
-                            # if not save_success:
-                            #     sys.exit("db save error")
+                            #bulk_list.append(d)
+                            save_success = False
+                            for try_idx in range(0, 3):
+                                try:
+                                    print d
+                                    d.save()
+                                    save_success = True
+                                    break
+                                except OperationalError as oe:
+                                     print oe
+                                time.sleep(db_save_retry_time)
 
-                        save_success = False
-                        for try_idx in range(0, 3):
-                            try:
-                                Deal.objects.bulk_create(bulk_list)
-                                save_success = True
-                                total_insert_row = total_insert_row + len(bulk_list)
-                                if (not compare_insert_row == total_insert_row):
-                                    compare_insert_row = total_insert_row
-                                    print "Total insert row:", total_insert_row
+                            if not save_success:
+                                sys.exit("db save error!!")
 
-                                break
-                            except OperationalError as oe:
-                                print oe
-                                time.sleep(60 * 10)
-
-                        if not save_success:
-                            t2 = time.time()
-                            print t2 - t1
-                            sys.exit("db save error")
+#                        save_success = False
+#                        for try_idx in range(0, 3):
+#                            try:
+#                                print "will save data size: ", len(bulk_list)," data:", bulk_list
+#                                Deal.objects.bulk_create(bulk_list)
+#                                save_success = True
+#                                total_insert_row = total_insert_row + len(bulk_list)
+#                                if (not compare_insert_row == total_insert_row):
+#                                    compare_insert_row = total_insert_row
+#                                    print "Total insert row:", total_insert_row
+#
+#                                break
+#                            except OperationalError as oe:
+#                                print oe
+#
+#                            time.sleep(db_save_retry_time)
+#
+#                        if not save_success: 
+#                            t2 = time.time()
+#                            print t2 - t1
+#                            sys.exit("db save error")
 
                     print "Year:", year, "Quarter:", quarter, "BuildType:", build_type, "DealType:", deal_type, "Total DB insert count:", total_insert_row
 

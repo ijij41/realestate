@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.utils.encoding import python_2_unicode_compatible
 from django.db import models
+
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 
 # Create your models here.
@@ -30,7 +35,7 @@ class Address(models.Model):
 
 # class DealManager(models.Manager):
 #     def
-
+# @python_2_unicode_compatible
 class Deal(models.Model):
     housetype = models.CharField(db_column='houseType', max_length=1)  # Field name made lowercase.
     dealtype = models.CharField(db_column='dealType', max_length=1)  # Field name made lowercase.
@@ -92,8 +97,32 @@ class Deal(models.Model):
         return [f.name for f in self._meta.get_fields()]
 
     def __unicode__(self):
-        return self.bldg_nm
+        field_values = []
+        # http://freeprog.tistory.com/87
+        # https: // stackoverflow.com / questions / 35926022 / django-str-return-all-the-attributes
+        for field in self._meta.get_fields():
+            field_data = getattr(self, field.name, '')
 
+            if isinstance(field_data, unicode):
+                field_data = field_data.encode('utf-8')
+            else:
+                field_data=str(field_data)
+
+            # print field_data
+            field_values.append(field_data)    # all values are no added 'u'.  In addition, I added
+            # import sys
+            # reload(sys)
+            # sys.setdefaultencoding('utf-8')
+
+        # print len(field_values), field_values
+        # print ' ,'.join(field_values)
+        return ' ,'.join(field_values)
+
+
+
+
+    # def __unicode__(self):
+    #     return self.bldg_nm
     # @classmethod
     # def dealtypeStr(cls, code):
     #     dealtypeDict = {'1': 'DEAL', '2': 'RENT'}

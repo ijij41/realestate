@@ -74,5 +74,6 @@ def unrolling_deal_data(json_data):
 
 def buildUrl(build_type, d_type, year, quarter, sidocode, guguncode, dongcode):
     url = "http://rt.molit.go.kr/srh/getListAjax.do?areaCode=&chosung=&danjiCode=&dongCode=" + dongcode + "&fromAmt1=&fromAmt2=&fromAmt3=&gubunCode=LAND&gugunCode=" + guguncode + "&houseType=" + d_type + "&jimokCode=&menuGubun=" + build_type + "&rentAmtType=3&reqPage=SRH&roadCode=&sidoCode=" + sidocode + "&srhPeriod=" + quarter + "&srhType=LOC&srhYear=" + year + "&toAmt1=&toAmt2=&toAmt3=&useCode=&useSubCode="
+    #url = "http://rt.molit.go.kr/srh/getListAjax.do?reqPage=SRH&menuGubun="+build_type+"&srhType=LOC&houseType="+d_type+"&srhYear="+year+"&srhPeriod="+quarter+"&gubunCode=LAND&sidoCode="+sidocode+"&gugunCode="+guguncode+"&dongCode="+dongcode+"&chosung=&roadCode=&danjiCode=&rentAmtType=3&fromAmt1=&toAmt1=&fromAmt2=&toAmt2=&fromAmt3=&toAmt3=&areaCode=&jimokCode=&useCode=&useSubCode=&jibun=&typeGbn="
     return url
 

@@ -118,7 +118,8 @@ DATABASES = {
         'PASSWORD': 'dlwjdgns',
         # 'HOST': '54.224.103.57',
         # 'HOST': '13.124.243.206',
-        'HOST': '13.125.53.78',
+        # 'HOST': '13.125.53.78',
+        'HOST': '13.124.209.5',
         'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES', innodb_strict_mode=1",
