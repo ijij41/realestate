@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.utils.encoding import python_2_unicode_compatible
 from django.db import models
 
+
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -93,45 +94,79 @@ class Deal(models.Model):
         return self.address.si_name + ", "+ self.address.gu_name + ", "+ self.address.dong_name + ", " + str(self.bobn) + " , " + str(self.bubn if not self.bubn==None else "")
 
 
-    def get_all_field(self):
-        return [f.name for f in self._meta.get_fields()]
+    def get_all_field_names(self):
+        return [field.name if field.name != 'address' else 'address_id' for field in self._meta.get_fields()]
 
-    def __unicode__(self):
+    def get_all_field_db_colums(self):
+        return [field.db_column if field.name != 'address' else 'address_id' for field in self._meta.get_fields()]
+
+
+    def get_all_field_types(self):
+        return [type(field) if field.name != 'address' else type(field) for field in self._meta.get_fields()]
+
+    def get_all_field_values(self):
         field_values = []
-        # http://freeprog.tistory.com/87
-        # https: // stackoverflow.com / questions / 35926022 / django-str-return-all-the-attributes
-        for field in self._meta.get_fields():
-            field_data = getattr(self, field.name, '')
+        # print "yy", self.get_all_field_names()
+
+        for field_name in self.get_all_field_names():
+            field_data = getattr(self, field_name, '')
 
             if isinstance(field_data, unicode):
                 field_data = field_data.encode('utf-8')
             else:
-                field_data=str(field_data)
+                field_data = str(field_data)
 
-            # print field_data
-            field_values.append(field_data)    # all values are no added 'u'.  In addition, I added
-            # import sys
-            # reload(sys)
-            # sys.setdefaultencoding('utf-8')
+            field_values.append(field_data)  # all values are no added 'u'.  In addition, I added
 
-        # print len(field_values), field_values
-        # print ' ,'.join(field_values)
-        return ' ,'.join(field_values)
+        return field_values
 
 
 
 
-    # def __unicode__(self):
-    #     return self.bldg_nm
-    # @classmethod
-    # def dealtypeStr(cls, code):
-    #     dealtypeDict = {'1': 'DEAL', '2': 'RENT'}
-    #     return dealtypeDict[code]
-    #
-    # @classmethod
-    # def housetypeStr(cls, code):
-    #     housetypeDict = {'A': 'APT', 'B': 'VILLA', 'C': 'HOUSE', 'E': 'OFFICETEL', 'F': 'DEAL_RIGHT', 'G': 'LAND'}
-    #     return housetypeDict[code]
+
+
+    @property
+    def get_insertQuery(self):
+
+
+        # field_names = self.get_all_field_names()
+        field_columns = self.get_all_field_db_colums()
+        field_types = self.get_all_field_types()
+        field_values = self.get_all_field_values()
+
+        column_str=''
+        values_str = ''
+        for c,t,v in zip(field_columns, field_types, field_values):
+            # print c,t,v
+            if t is models.fields.AutoField:
+                continue
+
+            column_str = column_str +'`'+ c + '`,'
+            if t is models.fields.CharField or t is models.fields.DateField:
+                if v == 'None':
+                    values_str = values_str + "NULL,"
+                else:
+                    values_str = values_str + "'" + v + "',"
+            elif t is models.fields.IntegerField:
+                if v == 'None':
+                    values_str = values_str + "NULL,"
+                else:
+                    values_str = values_str + str(int(v)) + ','
+            else:
+                if v == 'None':
+                    values_str = values_str + "NULL,"
+                else:
+                    values_str = values_str + v + ','
+
+        insert_q = "insert into "+str(self._meta.db_table)+"(%s) values(%s) " % (column_str[:-1], values_str[:-1])
+        return insert_q
+
+
+
+
+    def __unicode__(self):
+        return ' ,'.join(self.get_all_field_values())
+
 
 
 

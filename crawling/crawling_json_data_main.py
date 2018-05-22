@@ -3,6 +3,7 @@
 
 import crawling_address
 import crawling_dealdata
+import crawling_dealdata_to_file
 
 
 def store_address_data_from_web():
@@ -17,6 +18,9 @@ def store_address_data_from_web():
 def store_deal_data_from_web():
     crawling_dealdata.run()
 
+def store_deal_data_to_file_from_web():
+    crawling_dealdata_to_file.run()
+
     # if not crawling_dealdata.existData():
     #     crawling_dealdata.run()
     # else:
@@ -25,8 +29,8 @@ def store_deal_data_from_web():
 
 def main():
 
-    # store_address_data_from_web()
     store_deal_data_from_web()
+    # store_deal_data_to_file_from_web()
 
 
 if __name__ == '__main__':

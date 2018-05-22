@@ -2,8 +2,8 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="90e3e92e-a827-497d-9edf-2050f701372e" name="second realestate server" url="http://13.124.209.5">
-        <fileTransfer host="13.124.209.5" port="22" rootFolder="/home/ijij41" accessType="SFTP">
+      <webServer id="90e3e92e-a827-497d-9edf-2050f701372e" name="second realestate server" url="http://13.124.75.202">
+        <fileTransfer host="13.124.75.202" port="22" rootFolder="/home/ijij41" accessType="SFTP">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" />
           </advancedOptions>

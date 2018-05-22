@@ -42,12 +42,13 @@ INSTALLED_APPS = [
 
     'django.contrib.staticfiles',
 
-    'widget_tweaks',
+    # 'widget_tweaks',
 
     # 'startpolls',
     'realestate',
     'post_service',
     'user_manager',
+    're_news',
     # 'rest_framework',
     # 'rest_framework_swagger',
 ]
@@ -119,7 +120,8 @@ DATABASES = {
         # 'HOST': '54.224.103.57',
         # 'HOST': '13.124.243.206',
         # 'HOST': '13.125.53.78',
-        'HOST': '13.124.209.5',
+        #'HOST': '13.124.209.5',
+        'HOST': '13.124.75.202',
         'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES', innodb_strict_mode=1",

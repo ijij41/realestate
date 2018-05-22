@@ -1,12 +1,13 @@
-# import django
-# from django.conf import global_settings
-# from django.conf import settings
-#
-# from mysite import settings as mysetting
-#
-# django.conf.settings.configure(default_settings=global_settings, INSTALLED_APPS=mysetting.INSTALLED_APPS,
-#                                DATABASES=mysetting.DATABASES, DEBUG=True)
-# django.setup()
+
+import django
+from django.conf import global_settings
+from mysite import settings as mysetting
+
+django.conf.settings.configure(default_settings=global_settings, INSTALLED_APPS=mysetting.INSTALLED_APPS,
+                               DATABASES=mysetting.DATABASES, DEBUG=True)
+django.setup()
+
+
 import sys
 
 import datetime
@@ -18,21 +19,26 @@ import access_web
 import crawling_util
 from realestate.models import Deal, Address
 
+from django.db import connection
+
+
+
+
+
 deal_types_dict = {'1': 'DEAL', '2': 'RENT'}
 deal_types = deal_types_dict.keys()  # houseType: 'DEAL','RENT'
 deal_year = [x for x in range(2006, 2017, 1)]
-
-deal_year = [x for x in range(2016, 2017, 1)]
+# deal_year = [x for x in range(2016, 2017, 1)]
 deal_quarter = [x for x in range(1, 5, 1)]
 deal_build_dict = {'A': 'APT', 'B': 'VILLA', 'C': 'HOUSE', 'E': 'OFFICETEL', 'F': 'DEAL_RIGHT', 'G': 'LAND'}
 deal_build = deal_build_dict.keys()
 
-# end of 2016, 2015, 2014, 2013, 2012, 2011, 2010
-#doing 2009
-deal_year = [2009]
+
+
+deal_year = [2006]
 #deal_quarter = [1, 2, 3, 4]
 #deal_quarter = [1,2]
-deal_quarter = [3,4]
+#deal_quarter = [3,4]
 # # deal_build = ['A','B','C','E','F','G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
 deal_build = ['A', 'B', 'C', 'E', 'F', 'G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
 #deal_build = ['E', 'F', 'G']  # menuGubun:  APT,VILLA,HOUSE, OFFICETEL, RIGHT, LAND
@@ -41,22 +47,29 @@ deal_types = ['1', '2']  # houseType: 'DEAL','RENT'
 
 #intermittent_sleep_time = 60*3
 # intermittent_sleep_time = 60*1
-intermittent_sleep_time = 5
+intermittent_sleep_time = 40
 #web_access_retry_time = 60*10
 #db_save_retry_time = 60*10
 web_access_retry_time = 60*10
 db_save_retry_time = 60*10
-test=""
+
+
+
+
 
 
 def run():
     # NOTE: this codes should be executed based on address
+
     address_list = Address.objects.all()
     compare_insert_row = 1
+
     t1 = time.time()
+
 
     for year in deal_year:
         for quarter in deal_quarter:
+            f = open('db_query_collection_'+str(year)+'_'+str(quarter)+'.sql', 'w')
             for build_type in deal_build:
                 for deal_type in deal_types:
                     total_insert_row = 0
@@ -79,9 +92,13 @@ def run():
                         url = crawling_util.buildUrl(build_type, deal_type, str(year), str(quarter),
                                                      str(address.si_code), str(address.gu_code), str(address.dong_code))
 
-                        # dict_return = access_web.access_web_retrun_dict(url)
-                        #
-#			url = "http://rt.molit.go.kr/srh/getListAjax.do?areaCode=&chosung=&danjiCode=&dongCode=4511310200&fromAmt1=&fromAmt2=&fromAmt3=&gubunCode=LAND&gugunCode=45113&houseType=1&jimokCode=&menuGubun=A&rentAmtType=3&reqPage=SRH&roadCode=&sidoCode=45&srhPeriod=4&srhType=LOC&srhYear=2009&toAmt1=&toAmt2=&toAmt3=&useCode=&useSubCode="
+
+
+                        # s = "reqPage = SRH&menuGubun = A & srhType = LOC & houseType = 1 & srhYear = 2018 & srhPeriod = 1 & gubunCode = LAND & sidoCode = 11 & gugunCode = 11680 & dongCode = 1168010300 & chosung = & roadCode = & danjiCode = & rentAmtType = 3 & fromAmt1 = & toAmt1 = & fromAmt2 = & toAmt2 = & fromAmt3 = & toAmt3 = & areaCode = & jimokCode = & useCode = & useSubCode = & jibun = & typeGbn ="
+                        # url = "".join(s.split())
+                        # url = "http://rt.molit.go.kr/srh/getListAjax.do?"+url
+
+
                         print "url:", url
                         success_access_web = False
                         for i in range(0, 10):
@@ -128,6 +145,11 @@ def run():
                             d = Deal(housetype=build_type, dealtype=deal_type, year=year, period=quarter,
                                      sidocode=address.si_code, guguncode=address.gu_code,
                                      dongcode=address.dong_code)
+
+                            # d = Deal(housetype=deal_item['houseType'], dealtype=deal_item['dealType'], year=deal_item['Year'], period=deal_item['Period'],
+                            #          sidocode=deal_item['sidoCode'], guguncode=deal_item['gugunCode'],
+                            #          dongcode=deal_item['dongCode'])
+
                             d.deal_date = datetime.date(year, int(deal_item['DEAL_MM']),
                                                         int(deal_item['DEAL_DD'].split("~")[0]))
                             if 'BLDG_AREA' in deal_item.keys():
@@ -163,54 +185,45 @@ def run():
                             if 'RIGHT_GBN' in deal_item.keys():
                                 d.right_gbn = deal_item['RIGHT_GBN']
 
-                            d.address_id = address.pk;
+                            d.address_id = address.pk
 
                             #bulk_list.append(d)
-                            print "Save Data:", d
-                            save_success = False
-                            for try_idx in range(0, 3):
-                                try:
-                                    d.save()
-                                    save_success = True
-                                    break
-                                except OperationalError as oe:
-                                     print "Custom error", oe
-
-                                time.sleep(db_save_retry_time)
-
-                            if not save_success:
-                                sys.exit("db save error!!")
+                            # print "Save Data:", d
+                            print "Save Data Query:", d.get_insertQuery
+                            f.write(d.get_insertQuery+"\n")
+                            f.flush()
 
 
-#                        sys.exit(0)
-#                        save_success = False
-#                        for try_idx in range(0, 3):
-#                            try:
-#                                print "will save data size: ", len(bulk_list)," data:", bulk_list
-#                                Deal.objects.bulk_create(bulk_list)
-#                                save_success = True
-#                                total_insert_row = total_insert_row + len(bulk_list)
-#                                if (not compare_insert_row == total_insert_row):
-#                                    compare_insert_row = total_insert_row
-#                                    print "Total insert row:", total_insert_row
-#
-#                                break
-#                            except OperationalError as oe:
-#                                print oe
-#
-#                            time.sleep(db_save_retry_time)
-#
-#                        if not save_success: 
-#                            t2 = time.time()
-#                            print t2 - t1
-#                            sys.exit("db save error")
+                            # save_success = False
+                            # for try_idx in range(0, 3):
+                            #     try:
+                            #         # d.save()
+                            #         print "raw query:", connection.queries[-1]
+                            #         save_success = True
+                            #         break
+                            #     except OperationalError as oe:
+                            #          print "Custom error", oe
+                            #
+                            #     time.sleep(db_save_retry_time)
+                            #
+                            # if not save_success:
+                            #     sys.exit("db save error!!")
+
+                        # sys.exit(0)
+
+
+
 
                     print "Year:", year, "Quarter:", quarter, "BuildType:", build_type, "DealType:", deal_type, "Total DB insert count:", total_insert_row
 
+            f.close()
+
     t2 = time.time()
     print t2 - t1
-    print "Finish to run"
 
 
-def existData():
-    return Deal.objects.all().count() > 0
+
+if __name__ == "__main__":
+    run()
+
+
